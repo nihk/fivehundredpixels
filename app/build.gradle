@@ -48,6 +48,7 @@ dependencies {
     implementation project(":data")
     implementation project(":networking")
     implementation project(":photoshowcase")
+    implementation project(":photodetails")
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
