@@ -1,2 +1,2 @@
-include ':app', ':core', ':testutils', ':uiutils', ':data'
+include ':app', ':core', ':testutils', ':uiutils', ':data', ':networking'
 rootProject.name='FiveHundredPixels'
