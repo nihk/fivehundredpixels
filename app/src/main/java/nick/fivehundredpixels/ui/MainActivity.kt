@@ -22,7 +22,7 @@ class MainActivity
     @Inject
     lateinit var logger: Logger
 
-    override fun androidInjector()= androidInjector
+    override fun androidInjector() = androidInjector
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)

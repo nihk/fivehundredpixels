@@ -62,6 +62,8 @@ class PhotoShowcaseFragment
         swipe_refresh_layout.setOnRefreshListener {
             viewModel.refresh()
         }
+        observePhotos()
+        observeErrors()
     }
 
     fun setUpRecyclerView() {
@@ -79,12 +81,6 @@ class PhotoShowcaseFragment
         }
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        observePhotos()
-        observeErrors()
-    }
-
     fun observePhotos() {
         viewModel.photos.observe(viewLifecycleOwner, Observer {
             error.gone()
@@ -94,11 +90,7 @@ class PhotoShowcaseFragment
                     swipe_refresh_layout.isRefreshing = true
                     it.data?.let(::submitList)
                 }
-                is Resource.Success -> {
-                    swipe_refresh_layout.isRefreshing = false
-                    it.data?.let(::emptyResultsHandlingSubmission)
-                }
-                is Resource.Error -> {
+                is Resource.Success, is Resource.Error -> {
                     swipe_refresh_layout.isRefreshing = false
                     it.data?.let(::emptyResultsHandlingSubmission)
                 }

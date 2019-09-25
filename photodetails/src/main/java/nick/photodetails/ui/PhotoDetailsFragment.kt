@@ -54,6 +54,7 @@ class PhotoDetailsFragment
         super.onViewCreated(view, savedInstanceState)
         back.setOnClickListener { requireActivity().onBackPressed() }
         setUpConstraintSetAnimations(view.findViewById(R.id.constraint_layout))
+        observePhoto()
     }
 
     fun setUpConstraintSetAnimations(constraintLayout: ConstraintLayout) {
@@ -69,11 +70,6 @@ class PhotoDetailsFragment
             }
             isShowingControls = !isShowingControls
         }
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        observePhoto()
     }
 
     fun observePhoto() {

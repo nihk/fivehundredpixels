@@ -6,7 +6,6 @@ import android.content.res.Resources
 import dagger.Module
 import dagger.Provides
 import nick.core.di.ApplicationContext
-import nick.fivehundredpixels.di.*
 
 @Module(
     includes = [

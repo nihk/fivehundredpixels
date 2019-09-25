@@ -14,13 +14,16 @@ import javax.inject.Inject
 class PhotoShowcaseViewModel @Inject constructor(
     private val repository: PhotoShowcaseRepository,
     @InitialPhotosRequest
-    private var photosRequest: PhotosRequest
+    photosRequest: PhotosRequest
 ) : ViewModel() {
 
-    val pageSize: Int
-        get() = photosRequest.pageSize
+    private val request = MutableLiveData<PhotosRequest>(photosRequest)
 
-    private val request = MutableLiveData<PhotosRequest>()
+    private val requestValue: PhotosRequest
+        get() = requireNotNull(request.value)
+
+    val pageSize: Int
+        get() = requestValue.pageSize
 
     val photos = request.switchMap {
         repository.getPhotos(it, purgeOldData = it.page == 1)
@@ -35,22 +38,21 @@ class PhotoShowcaseViewModel @Inject constructor(
     }
 
     fun refresh() {
-        setRequest(photosRequest.copy(page = 1))
+        setRequest(requestValue.copy(page = 1))
     }
 
     fun paginate() {
-        if (isPaginating()) {
+        if (isLoading()) {
             return
         }
-        setRequest(photosRequest.copy(page = photosRequest.page + 1))
+        setRequest(requestValue.copy(page = requestValue.page + 1))
     }
 
-    fun isPaginating(): Boolean {
+    fun isLoading(): Boolean {
         return photos.value is Resource.Loading
     }
 
     private fun setRequest(photosRequest: PhotosRequest) {
-        this.photosRequest = photosRequest
-        request.value = this.photosRequest
+        request.value = photosRequest
     }
 }
