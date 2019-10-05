@@ -20,7 +20,7 @@ class PhotoShowcaseFragment
     , OnPhotoClickedListener {
 
     private val dependencies
-        get() = (requireActivity().application as PhotoShowcaseDependenciesProvider).photoShowcaseDependencies
+        get() = (activityApplication as PhotoShowcaseDependenciesProvider).photoShowcaseDependencies
 
     private val viewModel: PhotoShowcaseViewModel by viewModel { dependencies.photoShowcaseViewModel }
     private val adapter = PhotoShowcaseAdapter(this)

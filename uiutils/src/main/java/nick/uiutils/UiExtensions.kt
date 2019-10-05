@@ -1,5 +1,6 @@
 package nick.uiutils
 
+import android.app.Application
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -40,3 +41,5 @@ inline fun <reified T : ViewModel> Fragment.activityViewModel(
         }
     }
 }
+
+val Fragment.activityApplication: Application get() = requireActivity().application

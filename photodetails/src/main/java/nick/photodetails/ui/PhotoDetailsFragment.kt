@@ -18,15 +18,13 @@ import nick.photodetails.R
 import nick.photodetails.di.PhotoDetailsDependencies
 import nick.photodetails.di.PhotoDetailsDependenciesProvider
 import nick.photodetails.vm.PhotoDetailsViewModel
-import nick.uiutils.GlideApp
-import nick.uiutils.gone
-import nick.uiutils.viewModel
+import nick.uiutils.*
 
 class PhotoDetailsFragment
     : Fragment(R.layout.fragment_photo_details_with_controls) {
 
     private val dependencies: PhotoDetailsDependencies
-        get() = (requireActivity().application as PhotoDetailsDependenciesProvider).photoDetailsDependencies
+        get() = (activityApplication as PhotoDetailsDependenciesProvider).photoDetailsDependencies
     private val viewModel: PhotoDetailsViewModel by viewModel { dependencies.photoDetailsViewModel }
     private val args: PhotoDetailsFragmentArgs by navArgs()
     private val withControls = ConstraintSet()
