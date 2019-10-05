@@ -1,24 +1,29 @@
 package nick.fivehundredpixels
 
-import dagger.android.AndroidInjector
-import dagger.android.DaggerApplication
+import android.app.Application
+import nick.fivehundredpixels.di.ApplicationComponent
+import nick.fivehundredpixels.di.ApplicationComponentProvider
 import nick.fivehundredpixels.di.DaggerApplicationComponent
-import nick.fivehundredpixels.initializers.ApplicationInitializers
-import javax.inject.Inject
+import nick.photodetails.di.PhotoDetailsDependencies
+import nick.photodetails.di.PhotoDetailsDependenciesProvider
+import nick.photoshowcase.di.PhotoShowcaseDependencies
+import nick.photoshowcase.di.PhotoShowcaseDependenciesProvider
 
 class FiveHundredPixelsApplication
-    : DaggerApplication() {
+    : Application()
+    , ApplicationComponentProvider
+    , PhotoShowcaseDependenciesProvider
+    , PhotoDetailsDependenciesProvider {
 
-    @Inject
-    lateinit var applicationInitializers: ApplicationInitializers
+    override val applicationComponent: ApplicationComponent by lazy {
+        DaggerApplicationComponent.factory()
+            .application(this)
+    }
+    override val photoShowcaseDependencies: PhotoShowcaseDependencies get() = applicationComponent
+    override val photoDetailsDependencies: PhotoDetailsDependencies get() = applicationComponent
 
     override fun onCreate() {
         super.onCreate()
-        applicationInitializers.initialize()
-    }
-
-    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
-        return DaggerApplicationComponent.factory()
-            .application(this)
+        applicationComponent.applicationInitializers.initialize()
     }
 }

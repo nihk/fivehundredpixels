@@ -13,7 +13,6 @@ import nick.core.di.ApplicationContext
         NetworkingModule::class,
         InitializerModule::class,
         LoggerModule::class,
-        ViewModelsModule::class,
         RequestsModule::class
     ]
 )

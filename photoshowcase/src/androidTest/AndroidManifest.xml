@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="nick.core">
 
-    <application android:name="nick.testutils.InjectorApplication">
+    <application android:name="nick.photoshowcase.TestApplication">
         <activity android:name="nick.photoshowcase.TestActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

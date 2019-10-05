@@ -31,8 +31,6 @@ dependencies {
     api deps.room.room_ktx
     api deps.lifecycle.livedata_ktx
     api deps.dagger.runtime
-    api deps.dagger.android
-    api deps.dagger.android_support
     api deps.atsl.core
     api deps.atsl.core_ktx
     api deps.atsl.ext_junit

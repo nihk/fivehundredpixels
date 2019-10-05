@@ -36,6 +36,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation deps.kotlin.stdlib
+    implementation deps.inject
     implementation deps.support.fragment_runtime
     implementation deps.support.fragment_runtime_ktx
     implementation deps.support.app_compat
@@ -44,8 +45,5 @@ dependencies {
     implementation deps.constraint_layout
     implementation deps.photo_view
     implementation deps.navigation.fragment_ktx
-    implementation deps.dagger.runtime
-    implementation deps.dagger.android
-    implementation deps.dagger.android_support
     implementation deps.lifecycle.livedata_ktx
 }

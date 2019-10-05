@@ -1,8 +1,6 @@
 package nick.photoshowcase
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.core.app.launchActivity
 import androidx.test.espresso.Espresso.onView
@@ -15,9 +13,10 @@ import kotlinx.coroutines.test.runBlockingTest
 import nick.core.Logger
 import nick.networking.services.FiveHundredPixelsService
 import nick.networking.services.PhotosRequest
+import nick.photoshowcase.di.PhotoShowcaseDependencies
+import nick.photoshowcase.di.PhotoShowcaseDependenciesProvider
 import nick.photoshowcase.fakes.*
 import nick.photoshowcase.repositories.PhotoShowcaseRepository
-import nick.photoshowcase.ui.PhotoShowcaseFragment
 import nick.photoshowcase.vm.PhotoShowcaseViewModel
 import nick.testutils.*
 import org.hamcrest.Matchers.not
@@ -87,19 +86,18 @@ class PhotoShowcaseFragmentTest {
 
         val viewModel = PhotoShowcaseViewModel(repository, PhotosRequest())
 
-        val vmFactory = object : ViewModelProvider.Factory {
-            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                @Suppress("unchecked_cast")
-                return viewModel as T
-            }
+        val photoShowcaseDependencies = object : PhotoShowcaseDependencies {
+            override val photoShowcaseViewModel: PhotoShowcaseViewModel
+                get() = viewModel
         }
 
-        val fakeInjector = createFakeInjector<PhotoShowcaseFragment> {
-            factory = vmFactory
+        val photoShowcaseDependenciesProvider = object : PhotoShowcaseDependenciesProvider {
+            override val photoShowcaseDependencies: PhotoShowcaseDependencies
+                get() = photoShowcaseDependencies
         }
 
-        val application = ApplicationProvider.getApplicationContext<InjectorApplication>()
-        application.injector = fakeInjector
+        val application: TestApplication = ApplicationProvider.getApplicationContext()
+        application.photoShowcaseDependenciesProvider = photoShowcaseDependenciesProvider
 
         launchActivity<TestActivity>()
     }

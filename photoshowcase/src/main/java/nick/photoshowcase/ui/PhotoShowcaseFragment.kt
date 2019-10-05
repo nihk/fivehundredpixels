@@ -4,44 +4,32 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasAndroidInjector
-import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_photo_showcase.*
 import nick.core.Resource
 import nick.data.models.Photo
 import nick.photoshowcase.R
+import nick.photoshowcase.di.PhotoShowcaseDependenciesProvider
 import nick.photoshowcase.vm.PhotoShowcaseViewModel
-import nick.uiutils.StaggeredItemDecoration
-import nick.uiutils.StaggeredPaginatingScrollListener
-import nick.uiutils.gone
-import nick.uiutils.visible
-import javax.inject.Inject
+import nick.uiutils.*
 
 class PhotoShowcaseFragment
     : Fragment(R.layout.fragment_photo_showcase)
-    , HasAndroidInjector
     , OnPhotoClickedListener {
 
-    @Inject
-    lateinit var androidInjector: DispatchingAndroidInjector<Any>
-    @Inject
-    lateinit var factory: ViewModelProvider.Factory
-    private lateinit var listener: OnPhotoClickedListener
-    private val viewModel by viewModels<PhotoShowcaseViewModel> { factory }
+    private val dependencies
+        get() = (requireActivity().application as PhotoShowcaseDependenciesProvider).photoShowcaseDependencies
+
+    private val viewModel: PhotoShowcaseViewModel by viewModel { dependencies.photoShowcaseViewModel }
     private val adapter = PhotoShowcaseAdapter(this)
+
+    private lateinit var listener: OnPhotoClickedListener
     private lateinit var paginatingScrollListener: StaggeredPaginatingScrollListener
     private lateinit var itemDecoration: StaggeredItemDecoration
 
-    override fun androidInjector() = androidInjector
-
     override fun onAttach(context: Context) {
-        AndroidSupportInjection.inject(this)
         super.onAttach(context)
         listener = context as OnPhotoClickedListener
     }

@@ -61,8 +61,6 @@ dependencies {
     implementation deps.navigation.fragment_ktx
     implementation deps.navigation.ui_ktx
     implementation deps.dagger.runtime
-    implementation deps.dagger.android
-    implementation deps.dagger.android_support
     implementation deps.retrofit.runtime
     implementation deps.retrofit.moshi
     implementation deps.moshi
@@ -73,7 +71,6 @@ dependencies {
     implementation deps.multidex
 
     kapt deps.room.compiler
-    kapt deps.dagger.android_support_compiler
     kapt deps.dagger.compiler
 
     testImplementation project(":testutils")

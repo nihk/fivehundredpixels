@@ -1,7 +1,6 @@
 package nick.photoshowcase.repositories
 
 import androidx.lifecycle.LiveData
-import dagger.Reusable
 import nick.core.Logger
 import nick.core.Resource
 import nick.data.daos.PhotosDao
@@ -12,7 +11,6 @@ import nick.networking.util.NetworkBoundResource
 import java.lang.Exception
 import javax.inject.Inject
 
-@Reusable
 class PhotoShowcaseRepository @Inject constructor(
     private val fiveHundredPixelsService: FiveHundredPixelsService,
     private val photosDao: PhotosDao,

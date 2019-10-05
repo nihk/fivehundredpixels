@@ -37,21 +37,17 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation deps.kotlin.stdlib
+    implementation deps.inject
     implementation deps.support.fragment_runtime
     implementation deps.support.fragment_runtime_ktx
     implementation deps.support.app_compat
     implementation deps.support.design
     implementation deps.support.core_ktx
     implementation deps.constraint_layout
-    implementation deps.dagger.runtime
-    implementation deps.dagger.android
-    implementation deps.dagger.android_support
     implementation deps.lifecycle.livedata_ktx
     implementation deps.multidex
 
     androidTestImplementation project(":testutils")
 
-    kaptAndroidTest deps.dagger.android_support_compiler
-    kaptAndroidTest deps.dagger.compiler
     kaptAndroidTest deps.room.compiler
 }

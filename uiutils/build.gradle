@@ -21,6 +21,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
 
 dependencies {
@@ -29,6 +33,7 @@ dependencies {
     implementation deps.support.app_compat
     implementation deps.support.design
     implementation deps.support.core_ktx
+    implementation deps.support.fragment_runtime_ktx
 
     api deps.glide.runtime
 

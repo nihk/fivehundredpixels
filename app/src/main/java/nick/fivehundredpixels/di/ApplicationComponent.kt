@@ -3,21 +3,24 @@ package nick.fivehundredpixels.di
 import android.app.Application
 import dagger.BindsInstance
 import dagger.Component
-import dagger.android.AndroidInjector
-import dagger.android.support.AndroidSupportInjectionModule
+import nick.core.Logger
 import nick.core.di.ApplicationScope
-import nick.fivehundredpixels.FiveHundredPixelsApplication
+import nick.fivehundredpixels.initializers.ApplicationInitializers
+import nick.photodetails.di.PhotoDetailsDependencies
+import nick.photoshowcase.di.PhotoShowcaseDependencies
 
 @ApplicationScope
 @Component(
     modules = [
-        AndroidSupportInjectionModule::class,
-        ApplicationModule::class,
-        ActivityModule::class
+        ApplicationModule::class
     ]
 )
 interface ApplicationComponent
-    : AndroidInjector<FiveHundredPixelsApplication> {
+    : PhotoShowcaseDependencies
+    , PhotoDetailsDependencies {
+
+    val logger: Logger
+    val applicationInitializers: ApplicationInitializers
 
     @Component.Factory
     interface Factory {
