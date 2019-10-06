@@ -8,4 +8,4 @@ better define the boundaries of the project's dependencies.
 The project has by no means full test coverage, but I have added some to the `photoshowcase` module. These use the
 Espresso API and various other test APIs to simulate different states that the list of photos can find itself in.
 
-The project uses the FragmentFactory API to make Fragment injection easy using dagger, coroutines to fetch and persist its data, and most of the current Android Architecture Components. All non-app modules know about the javax.inject library, but not dagger itself.
+The project uses the FragmentFactory API to make Fragment injection easy using dagger, coroutines to fetch and persist its data, and most of the current Android Architecture Components. All non-app modules know about the `javax.inject` library, but not dagger itself.
