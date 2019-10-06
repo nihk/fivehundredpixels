@@ -1,5 +1,6 @@
 package nick.photoshowcase.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -28,8 +29,12 @@ class PhotoShowcaseFragment @Inject constructor(
     private val paginatingScrollListener by lazy {
         StaggeredPaginatingScrollListener(this@PhotoShowcaseFragment.viewModel.pageSize, ::paginate)
     }
-    private val listener by lazy {
-        requireContext() as OnPhotoClickedListener
+
+    private lateinit var listener: OnPhotoClickedListener
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        listener = context as OnPhotoClickedListener
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
