@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import nick.photoshowcase.ui.OnPhotoClickedListener
-import nick.photoshowcase.ui.PhotoShowcaseFragment
 
 class TestActivity
     : AppCompatActivity()
@@ -20,7 +19,7 @@ class TestActivity
         setContentView(layout)
 
         supportFragmentManager.beginTransaction()
-            .add(viewId, PhotoShowcaseFragment(), null)
+            .add(viewId, (application as TestApplication).photoShowcaseFragment, null)
             .commit()
     }
 

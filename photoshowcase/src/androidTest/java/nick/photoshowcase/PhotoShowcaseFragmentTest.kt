@@ -14,10 +14,9 @@ import nick.core.Logger
 import nick.data.daos.PhotosDao
 import nick.networking.services.FiveHundredPixelsService
 import nick.networking.services.PhotosRequest
-import nick.photoshowcase.di.PhotoShowcaseDependencies
-import nick.photoshowcase.di.PhotoShowcaseDependenciesProvider
 import nick.photoshowcase.fakes.*
 import nick.photoshowcase.repositories.PhotoShowcaseRepository
+import nick.photoshowcase.ui.PhotoShowcaseFragment
 import nick.photoshowcase.vm.PhotoShowcaseViewModel
 import nick.testutils.*
 import org.hamcrest.Matchers.not
@@ -90,17 +89,10 @@ class PhotoShowcaseFragmentTest {
 
         val viewModel = PhotoShowcaseViewModel(repository, PhotosRequest())
 
-        val photoShowcaseDependencies = object : PhotoShowcaseDependencies {
-            override val photoShowcaseViewModel = viewModel
-            override val logger = this@PhotoShowcaseFragmentTest.logger
-        }
-
-        val photoShowcaseDependenciesProvider = object : PhotoShowcaseDependenciesProvider {
-            override val photoShowcaseDependencies = photoShowcaseDependencies
-        }
+        val fragment = PhotoShowcaseFragment(viewModel, logger)
 
         val application: TestApplication = ApplicationProvider.getApplicationContext()
-        application.photoShowcaseDependenciesProvider = photoShowcaseDependenciesProvider
+        application.photoShowcaseFragment = fragment
 
         launchActivity<TestActivity>()
     }

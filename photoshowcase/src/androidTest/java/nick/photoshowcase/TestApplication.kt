@@ -1,15 +1,10 @@
 package nick.photoshowcase
 
 import android.app.Application
-import nick.photoshowcase.di.PhotoShowcaseDependencies
-import nick.photoshowcase.di.PhotoShowcaseDependenciesProvider
+import nick.photoshowcase.ui.PhotoShowcaseFragment
 
 class TestApplication
-    : Application()
-    , PhotoShowcaseDependenciesProvider {
+    : Application() {
 
-    lateinit var photoShowcaseDependenciesProvider: PhotoShowcaseDependenciesProvider
-
-    override val photoShowcaseDependencies: PhotoShowcaseDependencies
-        get() = photoShowcaseDependenciesProvider.photoShowcaseDependencies
+    lateinit var photoShowcaseFragment: PhotoShowcaseFragment
 }
