@@ -7,16 +7,7 @@ import dagger.Module
 import dagger.Provides
 import nick.core.di.ApplicationContext
 
-@Module(
-    includes = [
-        DataModule::class,
-        NetworkingModule::class,
-        InitializerModule::class,
-        LoggerModule::class,
-        RequestsModule::class,
-        FragmentsModule::class
-    ]
-)
+@Module
 class ApplicationModule {
 
     @Provides

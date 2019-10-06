@@ -10,7 +10,13 @@ import nick.fivehundredpixels.ui.ApplicationFragmentFactory
 @ApplicationScope
 @Component(
     modules = [
-        ApplicationModule::class
+        ApplicationModule::class,
+        DataModule::class,
+        NetworkingModule::class,
+        InitializerModule::class,
+        LoggerModule::class,
+        RequestsModule::class,
+        FragmentsModule::class
     ]
 )
 interface ApplicationComponent {
