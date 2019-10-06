@@ -49,6 +49,7 @@ dependencies {
     implementation project(":networking")
     implementation project(":photoshowcase")
     implementation project(":photodetails")
+    implementation project(":uiutils")
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -57,6 +58,7 @@ dependencies {
     implementation deps.support.app_compat
     implementation deps.support.core_ktx
     implementation deps.constraint_layout
+    implementation deps.photo_view
     implementation deps.navigation.runtime_ktx
     implementation deps.navigation.fragment_ktx
     implementation deps.navigation.ui_ktx

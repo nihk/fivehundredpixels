@@ -24,6 +24,7 @@ import nick.photodetails.R
 import nick.photodetails.di.PhotoDetailsDependencies
 import nick.photodetails.di.PhotoDetailsDependenciesProvider
 import nick.photodetails.vm.PhotoDetailsViewModel
+import nick.uiutils.ThumbnailZoomCoordinator
 import nick.uiutils.activityApplication
 import nick.uiutils.gone
 import nick.uiutils.viewModel
@@ -34,6 +35,8 @@ class PhotoDetailsFragment
     private val dependencies: PhotoDetailsDependencies
         get() = (activityApplication as PhotoDetailsDependenciesProvider).photoDetailsDependencies
     private val viewModel: PhotoDetailsViewModel by viewModel { dependencies.photoDetailsViewModel }
+    private val thumbnailZoomCoordinator: ThumbnailZoomCoordinator
+        get() = dependencies.thumbnailZoomCoordinator
     private val args: PhotoDetailsFragmentArgs by navArgs()
     private val withControls = ConstraintSet()
     private val withoutControls = ConstraintSet()
@@ -91,7 +94,7 @@ class PhotoDetailsFragment
     }
 
     private fun setImageDrawable(drawable: Drawable) {
-        photo.setImageDrawable(drawable)
+        thumbnailZoomCoordinator.setImageDrawable(photo, drawable)
     }
 
     fun setUpShareButton(dataToShare: String) {
