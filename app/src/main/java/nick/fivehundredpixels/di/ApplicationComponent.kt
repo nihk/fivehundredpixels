@@ -19,7 +19,7 @@ interface ApplicationComponent
     : PhotoShowcaseDependencies
     , PhotoDetailsDependencies {
 
-    val logger: Logger
+    override val logger: Logger
     val applicationInitializers: ApplicationInitializers
 
     @Component.Factory

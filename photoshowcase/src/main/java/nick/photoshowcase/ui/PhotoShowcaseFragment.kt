@@ -19,10 +19,12 @@ class PhotoShowcaseFragment
     : Fragment(R.layout.fragment_photo_showcase)
     , OnPhotoClickedListener {
 
-    private val dependencies
-        get() = (activityApplication as PhotoShowcaseDependenciesProvider).photoShowcaseDependencies
+    private val dependencies by lazy {
+        (activityApplication as PhotoShowcaseDependenciesProvider).photoShowcaseDependencies
+    }
 
     private val viewModel: PhotoShowcaseViewModel by viewModel { dependencies.photoShowcaseViewModel }
+    private val logger by lazy { dependencies.logger }
     private val adapter = PhotoShowcaseAdapter(this)
 
     private lateinit var listener: OnPhotoClickedListener
@@ -56,6 +58,8 @@ class PhotoShowcaseFragment
 
     fun setUpRecyclerView() {
         val spanCount = resources.getInteger(R.integer.span_count)
+        logger.d("RV span count: $spanCount")
+
         with(recycler_view) {
             layoutManager = StaggeredGridLayoutManager(spanCount, StaggeredGridLayoutManager.VERTICAL)
             adapter = this@PhotoShowcaseFragment.adapter
