@@ -46,6 +46,7 @@ dependencies {
     implementation deps.constraint_layout
     implementation deps.lifecycle.livedata_ktx
     implementation deps.multidex
+    implementation deps.coil
 
     androidTestImplementation project(":testutils")
 

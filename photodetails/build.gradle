@@ -46,4 +46,5 @@ dependencies {
     implementation deps.photo_view
     implementation deps.navigation.fragment_ktx
     implementation deps.lifecycle.livedata_ktx
+    implementation deps.coil
 }

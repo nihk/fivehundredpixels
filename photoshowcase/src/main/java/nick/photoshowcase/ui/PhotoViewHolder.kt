@@ -3,9 +3,9 @@ package nick.photoshowcase.ui
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.recyclerview.widget.RecyclerView
+import coil.api.load
 import kotlinx.android.synthetic.main.item_photo.view.*
 import nick.data.models.Photo
-import nick.uiutils.GlideApp
 
 class PhotoViewHolder(
     view: View,
@@ -20,10 +20,7 @@ class PhotoViewHolder(
         }
 
         with(itemView.photo) {
-            GlideApp.with(this)
-                .load(photo.smallImage)
-                .into(this)
-
+            load(photo.smallImage)
             contentDescription = photo.name
         }
 

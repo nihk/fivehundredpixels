@@ -34,8 +34,4 @@ dependencies {
     implementation deps.support.design
     implementation deps.support.core_ktx
     implementation deps.support.fragment_runtime_ktx
-
-    api deps.glide.runtime
-
-    kapt deps.glide.compiler
 }
