@@ -3,7 +3,6 @@ package nick.fivehundredpixels.di
 import android.app.Application
 import dagger.BindsInstance
 import dagger.Component
-import nick.core.Logger
 import nick.core.di.ApplicationScope
 import nick.fivehundredpixels.initializers.ApplicationInitializers
 import nick.fivehundredpixels.ui.ApplicationFragmentFactory
@@ -16,7 +15,6 @@ import nick.fivehundredpixels.ui.ApplicationFragmentFactory
 )
 interface ApplicationComponent {
 
-    val logger: Logger
     val applicationInitializers: ApplicationInitializers
     val applicationFragmentFactory: ApplicationFragmentFactory
 

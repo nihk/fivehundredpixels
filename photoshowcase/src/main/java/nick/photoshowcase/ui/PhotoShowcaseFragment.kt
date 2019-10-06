@@ -111,6 +111,7 @@ class PhotoShowcaseFragment @Inject constructor(
     }
 
     override fun onPhotoClicked(id: Long) {
+        logger.d("Photo with id $id clicked")
         listener.onPhotoClicked(id)
     }
 
