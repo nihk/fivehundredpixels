@@ -1,6 +1,5 @@
 package nick.photoshowcase.ui
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -23,20 +22,18 @@ class PhotoShowcaseFragment @Inject constructor(
 
     private val viewModel: PhotoShowcaseViewModel by viewModel { viewModel }
     private val adapter = PhotoShowcaseAdapter(this)
-
-    private lateinit var listener: OnPhotoClickedListener
-    private lateinit var paginatingScrollListener: StaggeredPaginatingScrollListener
-    private lateinit var itemDecoration: StaggeredItemDecoration
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        listener = context as OnPhotoClickedListener
+    private val itemDecoration by lazy {
+        StaggeredItemDecoration(resources.getDimension(R.dimen.photo_margin).toInt())
+    }
+    private val paginatingScrollListener by lazy {
+        StaggeredPaginatingScrollListener(this@PhotoShowcaseFragment.viewModel.pageSize, ::paginate)
+    }
+    private val listener by lazy {
+        requireContext() as OnPhotoClickedListener
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        paginatingScrollListener = StaggeredPaginatingScrollListener(viewModel.pageSize, ::paginate)
-        itemDecoration = StaggeredItemDecoration(resources.getDimension(R.dimen.photo_margin).toInt())
 
         if (savedInstanceState == null || viewModel.photos.value == null) {
             viewModel.refresh()
@@ -55,7 +52,6 @@ class PhotoShowcaseFragment @Inject constructor(
 
     fun setUpRecyclerView() {
         val spanCount = resources.getInteger(R.integer.span_count)
-        logger.d("RV span count: $spanCount")
 
         with(recycler_view) {
             layoutManager = StaggeredGridLayoutManager(spanCount, StaggeredGridLayoutManager.VERTICAL)
