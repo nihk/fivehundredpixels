@@ -21,6 +21,7 @@ import kotlinx.android.synthetic.main.share.*
 import kotlinx.coroutines.launch
 import nick.data.models.Photo
 import nick.photodetails.R
+import nick.photodetails.di.PhotoDetailsDependencies
 import nick.photodetails.di.PhotoDetailsDependenciesProvider
 import nick.photodetails.vm.PhotoDetailsViewModel
 import nick.uiutils.activityApplication
@@ -30,9 +31,8 @@ import nick.uiutils.viewModel
 class PhotoDetailsFragment
     : Fragment(R.layout.fragment_photo_details_with_controls) {
 
-    private val dependencies by lazy {
-        (activityApplication as PhotoDetailsDependenciesProvider).photoDetailsDependencies
-    }
+    private val dependencies: PhotoDetailsDependencies
+        get() = (activityApplication as PhotoDetailsDependenciesProvider).photoDetailsDependencies
     private val viewModel: PhotoDetailsViewModel by viewModel { dependencies.photoDetailsViewModel }
     private val args: PhotoDetailsFragmentArgs by navArgs()
     private val withControls = ConstraintSet()

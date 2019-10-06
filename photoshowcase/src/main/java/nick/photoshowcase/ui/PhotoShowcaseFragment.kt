@@ -8,9 +8,11 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_photo_showcase.*
+import nick.core.Logger
 import nick.core.Resource
 import nick.data.models.Photo
 import nick.photoshowcase.R
+import nick.photoshowcase.di.PhotoShowcaseDependencies
 import nick.photoshowcase.di.PhotoShowcaseDependenciesProvider
 import nick.photoshowcase.vm.PhotoShowcaseViewModel
 import nick.uiutils.*
@@ -19,12 +21,11 @@ class PhotoShowcaseFragment
     : Fragment(R.layout.fragment_photo_showcase)
     , OnPhotoClickedListener {
 
-    private val dependencies by lazy {
-        (activityApplication as PhotoShowcaseDependenciesProvider).photoShowcaseDependencies
-    }
+    private val dependencies: PhotoShowcaseDependencies
+        get() = (activityApplication as PhotoShowcaseDependenciesProvider).photoShowcaseDependencies
 
     private val viewModel: PhotoShowcaseViewModel by viewModel { dependencies.photoShowcaseViewModel }
-    private val logger by lazy { dependencies.logger }
+    private val logger: Logger get() = dependencies.logger
     private val adapter = PhotoShowcaseAdapter(this)
 
     private lateinit var listener: OnPhotoClickedListener
