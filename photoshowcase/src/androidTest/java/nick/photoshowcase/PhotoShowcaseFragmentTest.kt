@@ -89,6 +89,8 @@ class PhotoShowcaseFragmentTest {
         val photoShowcaseDependencies = object : PhotoShowcaseDependencies {
             override val photoShowcaseViewModel: PhotoShowcaseViewModel
                 get() = viewModel
+            override val logger: Logger
+                get() = this@PhotoShowcaseFragmentTest.logger
         }
 
         val photoShowcaseDependenciesProvider = object : PhotoShowcaseDependenciesProvider {
