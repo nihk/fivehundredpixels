@@ -11,6 +11,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import nick.core.Logger
+import nick.data.daos.PhotosDao
 import nick.networking.services.FiveHundredPixelsService
 import nick.networking.services.PhotosRequest
 import nick.photoshowcase.di.PhotoShowcaseDependencies
@@ -30,6 +31,9 @@ class PhotoShowcaseFragmentTest {
 
     @get:Rule
     val photosDatabaseRule = InMemoryDatabaseRule(TestDatabase::class.java)
+
+    val photosDao: PhotosDao
+        get() = photosDatabaseRule.database.photosDao()
 
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
@@ -74,28 +78,25 @@ class PhotoShowcaseFragmentTest {
     }
 
     private fun prepopulatePhotosDb() = runBlockingTest {
-        photosDatabaseRule.database.photosDao().insert(morePhotos)
+        photosDao.insert(morePhotos)
     }
 
     private fun launchPhotoShowcaseFragmentWithFakeService(fiveHundredPixelsService: FiveHundredPixelsService) {
         val repository = PhotoShowcaseRepository(
             fiveHundredPixelsService,
-            photosDatabaseRule.database.photosDao(),
+            photosDao,
             logger
         )
 
         val viewModel = PhotoShowcaseViewModel(repository, PhotosRequest())
 
         val photoShowcaseDependencies = object : PhotoShowcaseDependencies {
-            override val photoShowcaseViewModel: PhotoShowcaseViewModel
-                get() = viewModel
-            override val logger: Logger
-                get() = this@PhotoShowcaseFragmentTest.logger
+            override val photoShowcaseViewModel = viewModel
+            override val logger = this@PhotoShowcaseFragmentTest.logger
         }
 
         val photoShowcaseDependenciesProvider = object : PhotoShowcaseDependenciesProvider {
-            override val photoShowcaseDependencies: PhotoShowcaseDependencies
-                get() = photoShowcaseDependencies
+            override val photoShowcaseDependencies = photoShowcaseDependencies
         }
 
         val application: TestApplication = ApplicationProvider.getApplicationContext()
