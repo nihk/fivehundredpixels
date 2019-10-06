@@ -4,7 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_photo_showcase.*
@@ -71,7 +71,7 @@ class PhotoShowcaseFragment @Inject constructor(
     }
 
     fun observePhotos() {
-        viewModel.photos.observe(viewLifecycleOwner, Observer {
+        viewModel.photos.observe(viewLifecycleOwner) {
             error.gone()
 
             when (it) {
@@ -84,7 +84,7 @@ class PhotoShowcaseFragment @Inject constructor(
                     it.data?.let(::emptyResultsHandlingSubmission)
                 }
             }
-        })
+        }
     }
 
     fun emptyResultsHandlingSubmission(photos: List<Photo>) {
@@ -100,14 +100,14 @@ class PhotoShowcaseFragment @Inject constructor(
     }
 
     fun observeErrors() {
-        viewModel.error.observe(viewLifecycleOwner, Observer {
-            it ?: return@Observer
+        viewModel.error.observe(viewLifecycleOwner) {
+            it ?: return@observe
 
             it.getContentIfNotHandled()?.let { throwable ->
                 Snackbar.make(view!!, "Something went terribly wrong: ${throwable.message}", Snackbar.LENGTH_LONG)
                     .show()
             }
-        })
+        }
     }
 
     override fun onPhotoClicked(id: Long) {

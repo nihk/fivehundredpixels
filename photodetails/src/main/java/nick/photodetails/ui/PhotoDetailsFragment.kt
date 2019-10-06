@@ -8,8 +8,8 @@ import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.observe
 import androidx.navigation.fragment.navArgs
 import androidx.transition.TransitionManager
 import coil.Coil
@@ -66,8 +66,8 @@ class PhotoDetailsFragment @Inject constructor(
     }
 
     fun observePhoto() {
-        viewModel.photo.observe(viewLifecycleOwner, Observer {
-            it ?: return@Observer
+        viewModel.photo.observe(viewLifecycleOwner) {
+            it ?: return@observe
 
             loadImageWithThumbnail(it)
 
@@ -79,7 +79,7 @@ class PhotoDetailsFragment @Inject constructor(
             }
 
             setUpShareButton(dataToShare = it.largeImage)
-        })
+        }
     }
 
     private fun loadImageWithThumbnail(photo: Photo) {
