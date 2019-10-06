@@ -4,10 +4,6 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'androidx.navigation.safeargs'
 
-def keyPropertiesFile = rootProject.file("keys.properties")
-def keyProperties = new Properties()
-keyProperties.load(new FileInputStream(keyPropertiesFile))
-
 android {
     compileSdkVersion build_versions.target_sdk
     buildToolsVersion build_versions.build_tools
@@ -21,7 +17,6 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
-        buildConfigField("String", "FIVE_HUNDRED_PIXELS_API_KEY", keyProperties["five_hundred_pixels_api_key"])
 
         kapt {
             arguments {
