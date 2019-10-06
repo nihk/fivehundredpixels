@@ -12,20 +12,15 @@ import nick.core.Logger
 import nick.core.Resource
 import nick.data.models.Photo
 import nick.photoshowcase.R
-import nick.photoshowcase.di.PhotoShowcaseDependencies
-import nick.photoshowcase.di.PhotoShowcaseDependenciesProvider
 import nick.photoshowcase.vm.PhotoShowcaseViewModel
 import nick.uiutils.*
 
-class PhotoShowcaseFragment
-    : Fragment(R.layout.fragment_photo_showcase)
-    , OnPhotoClickedListener {
+class PhotoShowcaseFragment(
+    viewModel: PhotoShowcaseViewModel,
+    private val logger: Logger
+) : Fragment(R.layout.fragment_photo_showcase), OnPhotoClickedListener {
 
-    private val dependencies: PhotoShowcaseDependencies
-        get() = (activityApplication as PhotoShowcaseDependenciesProvider).photoShowcaseDependencies
-
-    private val viewModel: PhotoShowcaseViewModel by viewModel { dependencies.photoShowcaseViewModel }
-    private val logger: Logger get() = dependencies.logger
+    private val viewModel: PhotoShowcaseViewModel by viewModel { viewModel }
     private val adapter = PhotoShowcaseAdapter(this)
 
     private lateinit var listener: OnPhotoClickedListener

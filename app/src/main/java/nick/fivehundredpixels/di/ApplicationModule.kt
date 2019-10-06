@@ -13,7 +13,8 @@ import nick.core.di.ApplicationContext
         NetworkingModule::class,
         InitializerModule::class,
         LoggerModule::class,
-        RequestsModule::class
+        RequestsModule::class,
+        FragmentFactoriesModule::class
     ]
 )
 class ApplicationModule {

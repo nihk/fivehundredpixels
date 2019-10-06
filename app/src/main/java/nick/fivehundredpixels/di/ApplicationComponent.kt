@@ -6,8 +6,7 @@ import dagger.Component
 import nick.core.Logger
 import nick.core.di.ApplicationScope
 import nick.fivehundredpixels.initializers.ApplicationInitializers
-import nick.photodetails.di.PhotoDetailsDependencies
-import nick.photoshowcase.di.PhotoShowcaseDependencies
+import nick.fivehundredpixels.ui.ApplicationFragmentFactory
 
 @ApplicationScope
 @Component(
@@ -15,12 +14,11 @@ import nick.photoshowcase.di.PhotoShowcaseDependencies
         ApplicationModule::class
     ]
 )
-interface ApplicationComponent
-    : PhotoShowcaseDependencies
-    , PhotoDetailsDependencies {
+interface ApplicationComponent {
 
-    override val logger: Logger
+    val logger: Logger
     val applicationInitializers: ApplicationInitializers
+    val applicationFragmentFactory: ApplicationFragmentFactory
 
     @Component.Factory
     interface Factory {

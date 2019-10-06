@@ -21,22 +21,17 @@ import kotlinx.android.synthetic.main.share.*
 import kotlinx.coroutines.launch
 import nick.data.models.Photo
 import nick.photodetails.R
-import nick.photodetails.di.PhotoDetailsDependencies
-import nick.photodetails.di.PhotoDetailsDependenciesProvider
 import nick.photodetails.vm.PhotoDetailsViewModel
 import nick.uiutils.ThumbnailZoomCoordinator
-import nick.uiutils.activityApplication
 import nick.uiutils.gone
 import nick.uiutils.viewModel
 
-class PhotoDetailsFragment
-    : Fragment(R.layout.fragment_photo_details_with_controls) {
-
-    private val dependencies: PhotoDetailsDependencies
-        get() = (activityApplication as PhotoDetailsDependenciesProvider).photoDetailsDependencies
-    private val viewModel: PhotoDetailsViewModel by viewModel { dependencies.photoDetailsViewModel }
+class PhotoDetailsFragment(
+    viewModel: PhotoDetailsViewModel,
     private val thumbnailZoomCoordinator: ThumbnailZoomCoordinator
-        get() = dependencies.thumbnailZoomCoordinator
+) : Fragment(R.layout.fragment_photo_details_with_controls) {
+
+    private val viewModel: PhotoDetailsViewModel by viewModel { viewModel }
     private val args: PhotoDetailsFragmentArgs by navArgs()
     private val withControls = ConstraintSet()
     private val withoutControls = ConstraintSet()
