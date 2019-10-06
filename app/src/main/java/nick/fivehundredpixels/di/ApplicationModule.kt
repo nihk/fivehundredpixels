@@ -14,7 +14,7 @@ import nick.core.di.ApplicationContext
         InitializerModule::class,
         LoggerModule::class,
         RequestsModule::class,
-        FragmentFactoriesModule::class
+        FragmentsModule::class
     ]
 )
 class ApplicationModule {

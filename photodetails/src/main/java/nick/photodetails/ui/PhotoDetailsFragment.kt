@@ -25,8 +25,9 @@ import nick.photodetails.vm.PhotoDetailsViewModel
 import nick.uiutils.ThumbnailZoomCoordinator
 import nick.uiutils.gone
 import nick.uiutils.viewModel
+import javax.inject.Inject
 
-class PhotoDetailsFragment(
+class PhotoDetailsFragment @Inject constructor(
     viewModel: PhotoDetailsViewModel,
     private val thumbnailZoomCoordinator: ThumbnailZoomCoordinator
 ) : Fragment(R.layout.fragment_photo_details_with_controls) {

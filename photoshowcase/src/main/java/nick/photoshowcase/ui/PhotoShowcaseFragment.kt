@@ -14,8 +14,9 @@ import nick.data.models.Photo
 import nick.photoshowcase.R
 import nick.photoshowcase.vm.PhotoShowcaseViewModel
 import nick.uiutils.*
+import javax.inject.Inject
 
-class PhotoShowcaseFragment(
+class PhotoShowcaseFragment @Inject constructor(
     viewModel: PhotoShowcaseViewModel,
     private val logger: Logger
 ) : Fragment(R.layout.fragment_photo_showcase), OnPhotoClickedListener {

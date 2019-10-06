@@ -1,18 +1,16 @@
 package nick.fivehundredpixels.di
 
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
 import nick.fivehundredpixels.ui.ApplicationFragmentFactory
-import nick.photodetails.ui.PhotoDetailsChildFragmentFactory
 import nick.photodetails.ui.PhotoDetailsFragment
-import nick.photoshowcase.ui.PhotoShowcaseChildFragmentFactory
 import nick.photoshowcase.ui.PhotoShowcaseFragment
-import nick.uiutils.ChildFragmentFactory
 
 @Module
-abstract class FragmentFactoriesModule {
+abstract class FragmentsModule {
 
     @Binds
     abstract fun fragmentFactory(applicationFragmentFactory: ApplicationFragmentFactory): FragmentFactory
@@ -20,14 +18,14 @@ abstract class FragmentFactoriesModule {
     @Binds
     @IntoMap
     @FragmentKey(PhotoDetailsFragment::class)
-    abstract fun photoDetailsChildFragmentFactory(
-        photoDetailsChildFragmentFactory: PhotoDetailsChildFragmentFactory
-    ): ChildFragmentFactory
+    abstract fun photoDetailsFragment(
+        photoDetailsFragment: PhotoDetailsFragment
+    ): Fragment
 
     @Binds
     @IntoMap
     @FragmentKey(PhotoShowcaseFragment::class)
-    abstract fun photoShowcaseChildFragmentFactory(
-        photoShowcaseChildFragmentFactory: PhotoShowcaseChildFragmentFactory
-    ): ChildFragmentFactory
+    abstract fun photoShowcaseFragment(
+        photoShowcaseFragment: PhotoShowcaseFragment
+    ): Fragment
 }
