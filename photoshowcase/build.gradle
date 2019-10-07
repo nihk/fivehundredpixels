@@ -38,12 +38,14 @@ dependencies {
 
     implementation deps.kotlin.stdlib
     implementation deps.inject
-    implementation deps.support.fragment_runtime
-    implementation deps.support.fragment_runtime_ktx
-    implementation deps.support.app_compat
-    implementation deps.support.design
-    implementation deps.support.core_ktx
-    implementation deps.constraint_layout
+    implementation deps.fragment.runtime
+    implementation deps.fragment.runtime_ktx
+    implementation deps.appcompat
+    implementation deps.material
+    implementation deps.recyclerview
+    implementation deps.swiperefreshlayout
+    implementation deps.core_ktx
+    implementation deps.constraintlayout
     implementation deps.lifecycle.livedata_ktx
     implementation deps.multidex
     implementation deps.coil

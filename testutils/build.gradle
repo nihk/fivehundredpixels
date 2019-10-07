@@ -38,7 +38,7 @@ dependencies {
     api deps.atsl.rules
     api deps.room.testing
     api deps.arch_core.testing
-    api deps.support.fragment_testing
+    api deps.fragment.testing
     api deps.mockito.core
     api deps.mockito.android
     api deps.espresso.core

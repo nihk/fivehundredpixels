@@ -49,10 +49,10 @@ dependencies {
 
     implementation deps.kotlin.stdlib
     implementation deps.activity.activity_ktx
-    implementation deps.support.app_compat
-    implementation deps.support.core_ktx
-    implementation deps.support.vector_drawable
-    implementation deps.constraint_layout
+    implementation deps.appcompat
+    implementation deps.core_ktx
+    implementation deps.vectordrawable
+    implementation deps.constraintlayout
     implementation deps.photo_view
     implementation deps.navigation.runtime_ktx
     implementation deps.navigation.fragment_ktx
