@@ -16,7 +16,6 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables.useSupportLibrary = true
 
         kapt {
             arguments {
@@ -52,6 +51,7 @@ dependencies {
     implementation deps.activity.activity_ktx
     implementation deps.support.app_compat
     implementation deps.support.core_ktx
+    implementation deps.support.vector_drawable
     implementation deps.constraint_layout
     implementation deps.photo_view
     implementation deps.navigation.runtime_ktx

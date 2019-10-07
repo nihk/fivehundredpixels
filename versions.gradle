@@ -34,6 +34,7 @@ versions.robolectric = "4.2"
 versions.room = "2.2.0-rc01"
 versions.support = "1.0.0"
 versions.timber = "4.5.1"
+versions.vector_drawable = "1.1.0"
 versions.work = "2.3.0-alpha01"
 ext.versions = versions
 
@@ -53,7 +54,7 @@ deps.robolectric = "org.robolectric:robolectric:$versions.robolectric"
 deps.moshi = "com.squareup.moshi:moshi-kotlin:$versions.moshi"
 deps.inject = "javax.inject:javax.inject:$versions.inject"
 deps.photo_view = "com.github.chrisbanes:PhotoView:$versions.photo_view"
-deps.okhttp_logging_interceptor = "com.squareup.okhttp3:logging-interceptor:${versions.okhttp_logging_interceptor}"
+deps.okhttp_logging_interceptor = "com.squareup.okhttp3:logging-interceptor:$versions.okhttp_logging_interceptor"
 deps.multidex = "androidx.multidex:multidex:$versions.multidex"
 deps.coil = "io.coil-kt:coil:$versions.coil"
 
@@ -65,9 +66,10 @@ support.cardview = "androidx.cardview:cardview:$versions.support"
 support.design = "com.google.android.material:material:$versions.support"
 support.core_utils = "androidx.legacy:legacy-support-core-utils:$versions.support"
 support.core_ktx = "androidx.core:core-ktx:$versions.core_ktx"
-support.fragment_runtime = "androidx.fragment:fragment:${versions.fragment}"
-support.fragment_runtime_ktx = "androidx.fragment:fragment-ktx:${versions.fragment}"
-support.fragment_testing = "androidx.fragment:fragment-testing:${versions.fragment}"
+support.fragment_runtime = "androidx.fragment:fragment:$versions.fragment"
+support.fragment_runtime_ktx = "androidx.fragment:fragment-ktx:$versions.fragment"
+support.fragment_testing = "androidx.fragment:fragment-testing:$versions.fragment"
+support.vector_drawable = "androidx.vectordrawable:vectordrawable:$versions.vector_drawable"
 deps.support = support
 
 def room = [:]
