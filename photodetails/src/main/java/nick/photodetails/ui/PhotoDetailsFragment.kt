@@ -26,13 +26,14 @@ import nick.uiutils.ThumbnailZoomCoordinator
 import nick.uiutils.gone
 import nick.uiutils.viewModel
 import javax.inject.Inject
+import javax.inject.Provider
 
 class PhotoDetailsFragment @Inject constructor(
-    viewModel: PhotoDetailsViewModel,
+    viewModelProvider: Provider<PhotoDetailsViewModel>,
     private val thumbnailZoomCoordinator: ThumbnailZoomCoordinator
 ) : Fragment(R.layout.fragment_photo_details_with_controls) {
 
-    private val viewModel: PhotoDetailsViewModel by viewModel { viewModel }
+    private val viewModel: PhotoDetailsViewModel by viewModel(viewModelProvider)
     private val args: PhotoDetailsFragmentArgs by navArgs()
     private val withControls = ConstraintSet()
     private val withoutControls = ConstraintSet()

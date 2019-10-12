@@ -15,13 +15,14 @@ import nick.photoshowcase.R
 import nick.photoshowcase.vm.PhotoShowcaseViewModel
 import nick.uiutils.*
 import javax.inject.Inject
+import javax.inject.Provider
 
 class PhotoShowcaseFragment @Inject constructor(
-    viewModel: PhotoShowcaseViewModel,
+    viewModelProvider: Provider<PhotoShowcaseViewModel>,
     private val logger: Logger
 ) : Fragment(R.layout.fragment_photo_showcase), OnPhotoClickedListener {
 
-    private val viewModel: PhotoShowcaseViewModel by viewModel { viewModel }
+    private val viewModel: PhotoShowcaseViewModel by viewModel(viewModelProvider)
     private val adapter = PhotoShowcaseAdapter(this)
     private val itemDecoration by lazy {
         StaggeredItemDecoration(resources.getDimension(R.dimen.photo_margin).toInt())
