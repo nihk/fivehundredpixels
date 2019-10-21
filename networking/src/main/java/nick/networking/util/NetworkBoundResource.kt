@@ -32,7 +32,7 @@ abstract class NetworkBoundResource<T> {
         }
     }
 
-    abstract suspend fun query(): T
+    abstract suspend fun query(): T?
 
     abstract fun queryObservable(): LiveData<T>
 
@@ -42,5 +42,5 @@ abstract class NetworkBoundResource<T> {
 
     open fun onFetchFailed(exception: Exception) {}
 
-    open fun shouldFetch(data: T) = true
+    open fun shouldFetch(data: T?) = true
 }
