@@ -7,7 +7,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import javax.inject.Provider
 
 fun View.visible() {
     visibility = View.VISIBLE
@@ -22,23 +21,23 @@ fun View.gone() {
 }
 
 inline fun <reified T : ViewModel> Fragment.viewModel(
-    provider: Provider<T>
+    crossinline provider: () -> T
 ) = viewModels<T> {
     object : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
-            return provider.get() as T
+            return provider() as T
         }
     }
 }
 
 inline fun <reified T : ViewModel> Fragment.activityViewModel(
-    provider: Provider<T>
+    crossinline provider: () -> T
 ) = activityViewModels<T> {
     object : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
-            return provider.get() as T
+            return provider() as T
         }
     }
 }
