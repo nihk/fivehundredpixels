@@ -22,9 +22,9 @@ abstract class NetworkBoundResource<T> {
                     saveCallResult(fetchedData)
                     // Re-establish the emission as `Resource.Success`.
                     emitSource(queryObservable().map { Resource.Success(it) })
-                } catch (e: Exception) {
-                    onFetchFailed(e)
-                    emitSource(queryObservable().map { Resource.Error(e, it) })
+                } catch (throwable: Throwable) {
+                    onFetchFailed(throwable)
+                    emitSource(queryObservable().map { Resource.Error(throwable, it) })
                 }
             } else {
                 emitSource(queryObservable().map { Resource.Success(it) })
@@ -40,7 +40,7 @@ abstract class NetworkBoundResource<T> {
 
     abstract suspend fun saveCallResult(data: T)
 
-    open fun onFetchFailed(exception: Exception) {}
+    open fun onFetchFailed(throwable: Throwable) {}
 
     open fun shouldFetch(data: T?) = true
 }

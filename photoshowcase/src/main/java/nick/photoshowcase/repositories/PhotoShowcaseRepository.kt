@@ -8,7 +8,6 @@ import nick.data.models.Photo
 import nick.networking.services.FiveHundredPixelsService
 import nick.networking.services.PhotosRequest
 import nick.networking.util.NetworkBoundResource
-import java.lang.Exception
 import javax.inject.Inject
 
 class PhotoShowcaseRepository @Inject constructor(
@@ -50,8 +49,8 @@ class PhotoShowcaseRepository @Inject constructor(
                 photosDao.insert(data)
             }
 
-            override fun onFetchFailed(exception: Exception) {
-                logger.e("Fetching photos failed", exception)
+            override fun onFetchFailed(throwable: Throwable) {
+                logger.e("Fetching photos failed", throwable)
             }
         }.asLiveData()
     }

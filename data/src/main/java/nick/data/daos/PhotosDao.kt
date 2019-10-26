@@ -3,6 +3,7 @@ package nick.data.daos
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
 import nick.data.models.Photo
 
 @Dao
@@ -26,7 +27,7 @@ interface PhotosDao
         FROM photos
         WHERE id = :id
     """)
-    fun queryById(id: Long): LiveData<Photo?>
+    fun queryById(id: Long): Flow<Photo?>
 
     @Query("""
         DELETE
