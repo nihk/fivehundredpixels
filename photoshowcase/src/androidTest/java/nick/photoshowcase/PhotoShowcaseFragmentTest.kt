@@ -23,6 +23,7 @@ import org.hamcrest.Matchers.not
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import javax.inject.Provider
 
 @ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
@@ -87,9 +88,10 @@ class PhotoShowcaseFragmentTest {
             logger
         )
 
-        val viewModel = PhotoShowcaseViewModel(repository, PhotosRequest())
-
-        val fragment = PhotoShowcaseFragment(viewModel, logger)
+        val vmProvider = Provider<PhotoShowcaseViewModel> {
+            PhotoShowcaseViewModel(repository, PhotosRequest())
+        }
+        val fragment = PhotoShowcaseFragment(vmProvider, logger)
 
         val application: TestApplication = ApplicationProvider.getApplicationContext()
         application.photoShowcaseFragment = fragment
