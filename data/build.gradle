@@ -27,5 +27,4 @@ dependencies {
     implementation deps.kotlin.stdlib
     implementation deps.room.runtime
     implementation deps.room.room_ktx
-    implementation deps.lifecycle.livedata_ktx
 }

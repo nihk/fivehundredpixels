@@ -1,6 +1,5 @@
 package nick.photodetails.ui
 
-import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -9,7 +8,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.observe
 import androidx.navigation.fragment.navArgs
 import androidx.transition.TransitionManager
 import coil.Coil
@@ -18,7 +16,7 @@ import kotlinx.android.synthetic.main.back.*
 import kotlinx.android.synthetic.main.details_bottom_row.*
 import kotlinx.android.synthetic.main.fragment_photo_details_with_controls.*
 import kotlinx.android.synthetic.main.share.*
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.collect
 import nick.data.models.Photo
 import nick.photodetails.R
 import nick.photodetails.vm.PhotoDetailsViewModel
@@ -39,16 +37,22 @@ class PhotoDetailsFragment @Inject constructor(
     private val withoutControls = ConstraintSet()
     private var isShowingControls = true
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        viewModel.queryPhoto(args.id)
+    init {
+        getPhotoWhenStarted()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         back.setOnClickListener { requireActivity().onBackPressed() }
         setUpConstraintSetAnimations(view.findViewById(R.id.constraint_layout))
-        observePhoto()
+    }
+
+    fun getPhotoWhenStarted() {
+        lifecycleScope.launchWhenStarted {
+            viewModel.getPhoto(args.id).collect {
+                handlePhoto(it)
+            }
+        }
     }
 
     fun setUpConstraintSetAnimations(constraintLayout: ConstraintLayout) {
@@ -66,25 +70,23 @@ class PhotoDetailsFragment @Inject constructor(
         }
     }
 
-    fun observePhoto() {
-        viewModel.photo.observe(viewLifecycleOwner) {
-            it ?: return@observe
+    fun handlePhoto(photo: Photo?) {
+        photo ?: return
 
-            loadImageWithThumbnail(it)
+        loadImageWithThumbnail(photo)
 
-            title.text = it.name
-            if (it.description.isBlank()) {
-                description.gone()
-            } else {
-                description.text = it.description
-            }
-
-            setUpShareButton(dataToShare = it.largeImage)
+        title.text = photo.name
+        if (photo.description.isBlank()) {
+            description.gone()
+        } else {
+            description.text = photo.description
         }
+
+        setUpShareButton(dataToShare = photo.largeImage)
     }
 
     private fun loadImageWithThumbnail(photo: Photo) {
-        viewLifecycleOwner.lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             setImageDrawable(Coil.get(photo.smallImage))
             setImageDrawable(Coil.get(photo.largeImage))
         }
