@@ -12,7 +12,6 @@ object RequestsModule {
     @Reusable
     @Provides
     @InitialPhotosRequest
-    @JvmStatic
     fun initialPhotoShowcaseRequest(): PhotosRequest {
         return PhotosRequest(
             feature = "popular",

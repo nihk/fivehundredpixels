@@ -16,21 +16,17 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 object NetworkingModule {
 
     @Provides
-    @JvmStatic
     fun retrofitBuilder() = Retrofit.Builder()
 
     @Provides
-    @JvmStatic
     fun moshiBuilder() = Moshi.Builder()
 
     @Provides
-    @JvmStatic
     fun okHttpClientBuilder(): OkHttpClient.Builder {
         return OkHttpClient.Builder()
     }
 
     @Provides
-    @JvmStatic
     fun moshi(photosJsonAdapter: PhotosJsonAdapter, moshiBuilder: Moshi.Builder): Moshi {
         return moshiBuilder
             .add(photosJsonAdapter)
@@ -38,24 +34,20 @@ object NetworkingModule {
     }
 
     @Provides
-    @JvmStatic
     fun moshiConverterFactory(moshi: Moshi): MoshiConverterFactory = MoshiConverterFactory.create(moshi)
 
     @Provides
-    @JvmStatic
     fun httpLogger(logger: Logger): HttpLoggingInterceptor.Logger {
         return HttpLoggingInterceptor.Logger(logger::d)
     }
 
     @Provides
-    @JvmStatic
     fun httpLoggingInterceptor(httpLogger: HttpLoggingInterceptor.Logger): HttpLoggingInterceptor {
         return HttpLoggingInterceptor(httpLogger)
             .also { it.level = HttpLoggingInterceptor.Level.BASIC }
     }
 
     @Provides
-    @JvmStatic
     fun okHttpClient(
         builder: OkHttpClient.Builder,
         httpLoggingInterceptor: HttpLoggingInterceptor
@@ -67,7 +59,6 @@ object NetworkingModule {
 
     @Reusable
     @Provides
-    @JvmStatic
     fun fiveHundredPixelsService(
         retrofitBuilder: Retrofit.Builder,
         moshiConverterFactory: MoshiConverterFactory,

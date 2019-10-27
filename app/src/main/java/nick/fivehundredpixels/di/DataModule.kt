@@ -14,7 +14,6 @@ object DataModule {
 
     @ApplicationScope
     @Provides
-    @JvmStatic
     fun fiveHundredPixelsDatabase(
         @ApplicationContext applicationContext: Context
     ): FiveHundredPixelsDatabase {
@@ -27,6 +26,5 @@ object DataModule {
 
     @Reusable
     @Provides
-    @JvmStatic
     fun photosDao(database: FiveHundredPixelsDatabase) = database.photosDao()
 }
