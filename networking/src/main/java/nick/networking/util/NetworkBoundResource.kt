@@ -33,7 +33,7 @@ abstract class NetworkBoundResource<T> {
 
     abstract suspend fun saveCallResult(data: T)
 
-    open fun onFetchFailed(throwable: Throwable) {}
+    open fun onFetchFailed(throwable: Throwable) = Unit
 
     open fun shouldFetch(data: T) = true
 }
