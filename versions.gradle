@@ -69,6 +69,7 @@ deps.cardview = "androidx.cardview:cardview:$versions.cardview"
 deps.material = "com.google.android.material:material:$versions.material"
 deps.core_ktx = "androidx.core:core-ktx:$versions.core_ktx"
 deps.vectordrawable = "androidx.vectordrawable:vectordrawable:$versions.vectordrawable"
+deps.paging = "androidx.paging:paging-runtime:$versions.paging"
 
 def fragment = [:]
 fragment.runtime = "androidx.fragment:fragment:$versions.fragment"
