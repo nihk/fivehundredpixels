@@ -7,7 +7,7 @@ import nick.data.daos.PhotosDao
 import nick.data.models.Photo
 import nick.networking.services.FiveHundredPixelsService
 import nick.networking.services.PhotosRequest
-import nick.networking.util.NetworkBoundResource
+import nick.networking.utils.NetworkBoundResource
 import javax.inject.Inject
 
 class PhotoShowcaseRepository @Inject constructor(

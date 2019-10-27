@@ -1,4 +1,4 @@
-package nick.networking.util
+package nick.networking.utils
 
 import kotlinx.coroutines.flow.*
 import nick.core.Resource
