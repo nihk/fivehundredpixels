@@ -29,8 +29,6 @@ abstract class NetworkBoundResource<T> {
         emitAll(flow)
     }
 
-    abstract suspend fun query(): T?
-
     abstract fun queryFlow(): Flow<T>
 
     abstract suspend fun fetch(): T
@@ -39,5 +37,5 @@ abstract class NetworkBoundResource<T> {
 
     open fun onFetchFailed(throwable: Throwable) {}
 
-    open fun shouldFetch(data: T?) = true
+    open fun shouldFetch(data: T) = true
 }

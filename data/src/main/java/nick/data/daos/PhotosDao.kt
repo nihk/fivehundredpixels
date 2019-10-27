@@ -18,12 +18,6 @@ interface PhotosDao
     @Query("""
         SELECT *
         FROM photos
-    """)
-    suspend fun queryAll(): List<Photo>
-
-    @Query("""
-        SELECT *
-        FROM photos
         WHERE id = :id
     """)
     fun queryById(id: Long): Flow<Photo?>
