@@ -1,6 +1,6 @@
 package nick.photoshowcase.repositories
 
-import androidx.lifecycle.LiveData
+import kotlinx.coroutines.flow.Flow
 import nick.core.Logger
 import nick.core.Resource
 import nick.data.daos.PhotosDao
@@ -16,15 +16,15 @@ class PhotoShowcaseRepository @Inject constructor(
     private val logger: Logger
 ) {
 
-    fun getPhotos(photosRequest: PhotosRequest, purgeOldData: Boolean): LiveData<Resource<List<Photo>>> {
+    fun getPhotos(photosRequest: PhotosRequest, purgeOldData: Boolean): Flow<Resource<List<Photo>>> {
         return object : NetworkBoundResource<List<Photo>>() {
 
             override suspend fun query(): List<Photo> {
                 return photosDao.queryAll()
             }
 
-            override fun queryObservable(): LiveData<List<Photo>> {
-                return photosDao.queryAllObservable()
+            override fun queryFlow(): Flow<List<Photo>> {
+                return photosDao.queryAllFlow()
             }
 
             override suspend fun fetch(): List<Photo> {
@@ -52,6 +52,6 @@ class PhotoShowcaseRepository @Inject constructor(
             override fun onFetchFailed(throwable: Throwable) {
                 logger.e("Fetching photos failed", throwable)
             }
-        }.asLiveData()
+        }.asFlow()
     }
 }

@@ -1,9 +1,6 @@
 package nick.photoshowcase.vm
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.map
-import androidx.lifecycle.switchMap
+import androidx.lifecycle.*
 import nick.core.Event
 import nick.core.Resource
 import nick.networking.services.PhotosRequest
@@ -26,7 +23,7 @@ class PhotoShowcaseViewModel @Inject constructor(
         get() = requestValue.pageSize
 
     val photos = request.switchMap {
-        repository.getPhotos(it, purgeOldData = it.page == 1)
+        repository.getPhotos(it, purgeOldData = it.page == 1).asLiveData()
     }
 
     val error = photos.map {

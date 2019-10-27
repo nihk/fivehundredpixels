@@ -1,6 +1,5 @@
 package nick.data.daos
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
@@ -14,7 +13,7 @@ interface PhotosDao
         SELECT *
         FROM photos
     """)
-    fun queryAllObservable(): LiveData<List<Photo>>
+    fun queryAllFlow(): Flow<List<Photo>>
 
     @Query("""
         SELECT *

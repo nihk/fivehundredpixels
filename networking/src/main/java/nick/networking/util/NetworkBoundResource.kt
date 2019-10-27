@@ -1,40 +1,37 @@
 package nick.networking.util
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.liveData
-import androidx.lifecycle.map
+import kotlinx.coroutines.flow.*
 import nick.core.Resource
 
-// Adapted from: https://developer.android.com/topic/libraries/architecture/coroutines
 abstract class NetworkBoundResource<T> {
 
-    fun asLiveData(): LiveData<Resource<T>> {
-        return liveData<Resource<T>> {
-            emit(Resource.Loading(null))
+    fun asFlow(): Flow<Resource<T>> = flow {
+        val flow = queryFlow()
+            .onStart { emit(Resource.Loading<T>(null)) }
+            .flatMapConcat { data ->
+                val flow = queryFlow()
 
-            if (shouldFetch(query())) {
-                val disposable = emitSource(queryObservable().map { Resource.Loading(it) })
+                if (shouldFetch(data)) {
+                    emit(Resource.Loading(data))
 
-                try {
-                    val fetchedData = fetch()
-                    // Stop the previous emission to avoid dispatching the saveCallResult as `Resource.Loading`.
-                    disposable.dispose()
-                    saveCallResult(fetchedData)
-                    // Re-establish the emission as `Resource.Success`.
-                    emitSource(queryObservable().map { Resource.Success(it) })
-                } catch (throwable: Throwable) {
-                    onFetchFailed(throwable)
-                    emitSource(queryObservable().map { Resource.Error(throwable, it) })
+                    try {
+                        saveCallResult(fetch())
+                        flow.map { Resource.Success(it) }
+                    } catch (e: Exception) {
+                        onFetchFailed(e)
+                        flow.map { Resource.Error(e, it) }
+                    }
+                } else {
+                    flow.map { Resource.Success(it) }
                 }
-            } else {
-                emitSource(queryObservable().map { Resource.Success(it) })
             }
-        }
+
+        emitAll(flow)
     }
 
     abstract suspend fun query(): T?
 
-    abstract fun queryObservable(): LiveData<T>
+    abstract fun queryFlow(): Flow<T>
 
     abstract suspend fun fetch(): T
 
