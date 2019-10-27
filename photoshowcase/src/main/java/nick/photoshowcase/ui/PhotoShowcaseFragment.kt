@@ -20,15 +20,12 @@ import javax.inject.Provider
 class PhotoShowcaseFragment @Inject constructor(
     vmProvider: Provider<PhotoShowcaseViewModel>,
     private val logger: Logger
-) : Fragment(R.layout.fragment_photo_showcase), OnPhotoClickedListener {
+) : Fragment(R.layout.fragment_photo_showcase), PhotoShowcaseCallbacks {
 
     private val viewModel: PhotoShowcaseViewModel by viewModel { vmProvider.get() }
     private val adapter = PhotoShowcaseAdapter(this)
     private val itemDecoration by lazy {
         StaggeredItemDecoration(resources.getDimension(R.dimen.photo_margin).toInt())
-    }
-    private val paginatingScrollListener by lazy {
-        StaggeredPaginatingScrollListener(this@PhotoShowcaseFragment.viewModel.pageSize, ::paginate)
     }
 
     private lateinit var listener: OnPhotoClickedListener
@@ -66,9 +63,6 @@ class PhotoShowcaseFragment @Inject constructor(
             if (itemDecorationCount == 0) {
                 addItemDecoration(itemDecoration)
             }
-
-            clearOnScrollListeners()
-            addOnScrollListener(paginatingScrollListener)
         }
     }
 
@@ -117,9 +111,7 @@ class PhotoShowcaseFragment @Inject constructor(
         listener.onPhotoClicked(id)
     }
 
-    fun paginate() {
-        recycler_view.post {
-            viewModel.paginate()
-        }
+    override fun paginate() {
+        viewModel.paginate()
     }
 }

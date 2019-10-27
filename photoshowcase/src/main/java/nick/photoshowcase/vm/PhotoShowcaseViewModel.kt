@@ -19,9 +19,6 @@ class PhotoShowcaseViewModel @Inject constructor(
     private val requestValue: PhotosRequest
         get() = requireNotNull(request.value)
 
-    val pageSize: Int
-        get() = requestValue.pageSize
-
     val photos = request.switchMap {
         repository.getPhotos(it, purgeOldData = it.page == 1).asLiveData(timeoutInMs = Long.MAX_VALUE)
     }
