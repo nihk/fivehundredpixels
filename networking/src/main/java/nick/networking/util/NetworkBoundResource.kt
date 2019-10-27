@@ -6,10 +6,10 @@ import nick.core.Resource
 abstract class NetworkBoundResource<T> {
 
     fun asFlow(): Flow<Resource<T>> = flow {
-        val flow = queryFlow()
+        val flow = query()
             .onStart { emit(Resource.Loading<T>(null)) }
             .flatMapConcat { data ->
-                val flow = queryFlow()
+                val flow = query()
 
                 if (shouldFetch(data)) {
                     emit(Resource.Loading(data))
@@ -29,7 +29,7 @@ abstract class NetworkBoundResource<T> {
         emitAll(flow)
     }
 
-    abstract fun queryFlow(): Flow<T>
+    abstract fun query(): Flow<T>
 
     abstract suspend fun fetch(): T
 

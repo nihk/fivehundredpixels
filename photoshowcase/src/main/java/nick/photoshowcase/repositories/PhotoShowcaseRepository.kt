@@ -19,8 +19,8 @@ class PhotoShowcaseRepository @Inject constructor(
     fun getPhotos(photosRequest: PhotosRequest, purgeOldData: Boolean): Flow<Resource<List<Photo>>> {
         return object : NetworkBoundResource<List<Photo>>() {
 
-            override fun queryFlow(): Flow<List<Photo>> {
-                return photosDao.queryAllFlow()
+            override fun query(): Flow<List<Photo>> {
+                return photosDao.queryAll()
             }
 
             override suspend fun fetch(): List<Photo> {

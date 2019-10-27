@@ -13,7 +13,7 @@ interface PhotosDao
         SELECT *
         FROM photos
     """)
-    fun queryAllFlow(): Flow<List<Photo>>
+    fun queryAll(): Flow<List<Photo>>
 
     @Query("""
         SELECT *
