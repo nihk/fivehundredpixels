@@ -1,9 +1,7 @@
 package nick.photoshowcase.vm
 
-import androidx.lifecycle.*
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
-import nick.core.Event
+import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.flow.Flow
 import nick.core.Resource
 import nick.data.models.Photo
 import nick.networking.services.PhotosRequest
@@ -17,39 +15,16 @@ class PhotoShowcaseViewModel @Inject constructor(
     private var photosRequest: PhotosRequest
 ) : ViewModel() {
 
-    private val _photos = MutableLiveData<Resource<List<Photo>>>()
-    val photos: LiveData<Resource<List<Photo>>> = _photos
-
-    val error = photos.map {
-        if (it is Resource.Error) {
-            Event(it.throwable)
-        } else {
-            null
-        }
+    fun refresh(): Flow<Resource<List<Photo>>> {
+        return setPhotosRequest(photosRequest.copy(page = 1))
     }
 
-    fun refresh() {
-        setPhotosRequest(photosRequest.copy(page = 1))
+    fun paginate(): Flow<Resource<List<Photo>>> {
+        return setPhotosRequest(photosRequest.copy(page = photosRequest.page + 1))
     }
 
-    fun paginate() {
-        if (isLoading()) {
-            return
-        }
-        setPhotosRequest(photosRequest.copy(page = photosRequest.page + 1))
-    }
-
-    fun isLoading(): Boolean {
-        return photos.value is Resource.Loading
-    }
-
-    private fun setPhotosRequest(photosRequest: PhotosRequest) {
+    private fun setPhotosRequest(photosRequest: PhotosRequest): Flow<Resource<List<Photo>>> {
         this.photosRequest = photosRequest
-
-        viewModelScope.launch {
-            repository.getPhotos(photosRequest, purgeOldData = photosRequest.page == 1).collect {
-                _photos.value = it
-            }
-        }
+        return repository.getPhotos(photosRequest, purgeOldData = photosRequest.page == 1)
     }
 }
