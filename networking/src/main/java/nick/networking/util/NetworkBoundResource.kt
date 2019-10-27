@@ -9,20 +9,18 @@ abstract class NetworkBoundResource<T> {
         val flow = query()
             .onStart { emit(Resource.Loading<T>(null)) }
             .flatMapConcat { data ->
-                val flow = query()
-
                 if (shouldFetch(data)) {
                     emit(Resource.Loading(data))
 
                     try {
                         saveCallResult(fetch())
-                        flow.map { Resource.Success(it) }
+                        query().map { Resource.Success(it) }
                     } catch (e: Exception) {
                         onFetchFailed(e)
-                        flow.map { Resource.Error(e, it) }
+                        query().map { Resource.Error(e, it) }
                     }
                 } else {
-                    flow.map { Resource.Success(it) }
+                    query().map { Resource.Success(it) }
                 }
             }
 
