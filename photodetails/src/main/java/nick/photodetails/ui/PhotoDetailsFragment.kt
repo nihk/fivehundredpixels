@@ -17,6 +17,7 @@ import kotlinx.android.synthetic.main.details_bottom_row.*
 import kotlinx.android.synthetic.main.fragment_photo_details_with_controls.*
 import kotlinx.android.synthetic.main.share.*
 import kotlinx.coroutines.flow.collect
+import nick.core.Logger
 import nick.data.models.Photo
 import nick.photodetails.R
 import nick.photodetails.vm.PhotoDetailsViewModel
@@ -28,7 +29,8 @@ import javax.inject.Provider
 
 class PhotoDetailsFragment @Inject constructor(
     vmProvider: Provider<PhotoDetailsViewModel>,
-    private val thumbnailZoomCoordinator: ThumbnailZoomCoordinator
+    private val thumbnailZoomCoordinator: ThumbnailZoomCoordinator,
+    private val logger: Logger
 ) : Fragment(R.layout.fragment_photo_details_with_controls) {
 
     private val viewModel: PhotoDetailsViewModel by viewModel { vmProvider.get() }
@@ -87,8 +89,12 @@ class PhotoDetailsFragment @Inject constructor(
 
     private fun loadImageWithThumbnail(photo: Photo) {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            setImageDrawable(Coil.get(photo.smallImage))
-            setImageDrawable(Coil.get(photo.largeImage))
+            try {
+                setImageDrawable(Coil.get(photo.smallImage))
+                setImageDrawable(Coil.get(photo.largeImage))
+            } catch (throwable: Throwable) {
+                logger.e("Failed to load detail images", throwable)
+            }
         }
     }
 
