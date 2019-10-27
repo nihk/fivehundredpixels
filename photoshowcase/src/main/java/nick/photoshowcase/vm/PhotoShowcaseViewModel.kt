@@ -1,8 +1,11 @@
 package nick.photoshowcase.vm
 
 import androidx.lifecycle.*
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import nick.core.Event
 import nick.core.Resource
+import nick.data.models.Photo
 import nick.networking.services.PhotosRequest
 import nick.photoshowcase.di.InitialPhotosRequest
 import nick.photoshowcase.repositories.PhotoShowcaseRepository
@@ -11,17 +14,11 @@ import javax.inject.Inject
 class PhotoShowcaseViewModel @Inject constructor(
     private val repository: PhotoShowcaseRepository,
     @InitialPhotosRequest
-    photosRequest: PhotosRequest
+    private var photosRequest: PhotosRequest
 ) : ViewModel() {
 
-    private val request = MutableLiveData<PhotosRequest>(photosRequest)
-
-    private val requestValue: PhotosRequest
-        get() = requireNotNull(request.value)
-
-    val photos = request.switchMap {
-        repository.getPhotos(it, purgeOldData = it.page == 1).asLiveData(timeoutInMs = Long.MAX_VALUE)
-    }
+    private val _photos = MutableLiveData<Resource<List<Photo>>>()
+    val photos: LiveData<Resource<List<Photo>>> = _photos
 
     val error = photos.map {
         if (it is Resource.Error) {
@@ -32,21 +29,27 @@ class PhotoShowcaseViewModel @Inject constructor(
     }
 
     fun refresh() {
-        setRequest(requestValue.copy(page = 1))
+        setPhotosRequest(photosRequest.copy(page = 1))
     }
 
     fun paginate() {
         if (isLoading()) {
             return
         }
-        setRequest(requestValue.copy(page = requestValue.page + 1))
+        setPhotosRequest(photosRequest.copy(page = photosRequest.page + 1))
     }
 
     fun isLoading(): Boolean {
         return photos.value is Resource.Loading
     }
 
-    private fun setRequest(photosRequest: PhotosRequest) {
-        request.value = photosRequest
+    private fun setPhotosRequest(photosRequest: PhotosRequest) {
+        this.photosRequest = photosRequest
+
+        viewModelScope.launch {
+            repository.getPhotos(photosRequest, purgeOldData = photosRequest.page == 1).collect {
+                _photos.value = it
+            }
+        }
     }
 }
