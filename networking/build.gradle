@@ -43,6 +43,4 @@ dependencies {
     implementation deps.moshi
     implementation deps.kotlin.coroutines
     implementation deps.kotlin.coroutines_android
-    implementation deps.lifecycle.livedata_ktx
-    implementation deps.espresso.idling_resource
 }
