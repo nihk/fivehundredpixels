@@ -13,11 +13,11 @@ abstract class NetworkBoundResource<T> {
                     emit(Resource.Loading(data))
 
                     try {
-                        saveCallResult(fetch())
+                        saveFetchResult(fetch())
                         query().map { Resource.Success(it) }
-                    } catch (e: Exception) {
-                        onFetchFailed(e)
-                        query().map { Resource.Error(e, it) }
+                    } catch (throwable: Throwable) {
+                        onFetchFailed(throwable)
+                        query().map { Resource.Error(throwable, it) }
                     }
                 } else {
                     query().map { Resource.Success(it) }
@@ -31,7 +31,7 @@ abstract class NetworkBoundResource<T> {
 
     abstract suspend fun fetch(): T
 
-    abstract suspend fun saveCallResult(data: T)
+    abstract suspend fun saveFetchResult(data: T)
 
     open fun onFetchFailed(throwable: Throwable) = Unit
 

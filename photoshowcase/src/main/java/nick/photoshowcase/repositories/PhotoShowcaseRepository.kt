@@ -36,7 +36,7 @@ class PhotoShowcaseRepository @Inject constructor(
                 }
             }
 
-            override suspend fun saveCallResult(data: List<Photo>) {
+            override suspend fun saveFetchResult(data: List<Photo>) {
                 if (purgeOldData) {
                     photosRequest.feature?.let {
                         photosDao.deleteByFeature(it)
