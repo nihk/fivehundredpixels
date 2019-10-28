@@ -95,9 +95,7 @@ class PhotoShowcaseFragment @Inject constructor(
 
     fun observeErrors() {
         viewModel.error.observe(viewLifecycleOwner) {
-            it ?: return@observe
-
-            it.getContentIfNotHandled()?.let { throwable ->
+            it?.getContentIfNotHandled()?.let { throwable ->
                 Snackbar.make(view!!, "Something went terribly wrong: ${throwable.message}", Snackbar.LENGTH_LONG)
                     .show()
             }
