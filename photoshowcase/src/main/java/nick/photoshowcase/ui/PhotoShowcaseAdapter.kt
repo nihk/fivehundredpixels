@@ -6,8 +6,10 @@ import androidx.recyclerview.widget.ListAdapter
 import nick.data.models.Photo
 import nick.photoshowcase.R
 
-class PhotoShowcaseAdapter(private val photoShowcaseCallbacks: PhotoShowcaseCallbacks)
-    : ListAdapter<Photo, PhotoViewHolder>(PhotoDiffCallback) {
+class PhotoShowcaseAdapter(
+    private val photoShowcaseCallbacks: PhotoShowcaseCallbacks,
+    private val paginationThreshold: Int = 5
+) : ListAdapter<Photo, PhotoViewHolder>(PhotoDiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoViewHolder {
         return LayoutInflater.from(parent.context)
@@ -16,11 +18,11 @@ class PhotoShowcaseAdapter(private val photoShowcaseCallbacks: PhotoShowcaseCall
     }
 
     override fun onBindViewHolder(holder: PhotoViewHolder, position: Int) {
-        if (isLastItem(position)) {
+        if (shouldPaginate(position)) {
             photoShowcaseCallbacks.paginate()
         }
         holder.bind(getItem(position))
     }
 
-    private fun isLastItem(position: Int) = position == currentList.lastIndex
+    private fun shouldPaginate(position: Int) = position >= currentList.lastIndex - paginationThreshold
 }

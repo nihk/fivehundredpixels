@@ -36,8 +36,14 @@ class PhotoShowcaseViewModel @Inject constructor(
     }
 
     fun paginate() {
+        if (isLoading()) {
+            return
+        }
+
         setPhotosRequest(photosRequest.copy(page = photosRequest.page + 1))
     }
+
+    fun isLoading() = photos.value is Resource.Loading
 
     private fun setPhotosRequest(photosRequest: PhotosRequest) {
         fetchPhotosJob?.cancel()
@@ -46,6 +52,7 @@ class PhotoShowcaseViewModel @Inject constructor(
                 if (it is Resource.Success) {
                     this@PhotoShowcaseViewModel.photosRequest = photosRequest
                 }
+
                 _photos.value = it
             }
         }
