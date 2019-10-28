@@ -4,13 +4,10 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_photo_showcase.*
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
 import nick.core.Logger
 import nick.core.Resource
 import nick.data.models.Photo
@@ -34,40 +31,36 @@ class PhotoShowcaseFragment @Inject constructor(
         StaggeredItemDecoration(resources.getDimension(R.dimen.photo_margin).toInt())
     }
     private lateinit var listener: OnPhotoClickedListener
-    private var photoFetchingJob: Job? = null
-
-    init {
-        refreshPhotos()
-    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         listener = context as OnPhotoClickedListener
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        if (savedInstanceState == null || viewModel.photos.value == null) {
+            viewModel.refresh()
+        }
+    }
+
+    fun refresh() {
+        viewModel.refresh()
+    }
+
+    override fun paginate() {
+        viewModel.paginate()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpRecyclerView()
         swipe_refresh_layout.setOnRefreshListener {
-            refreshPhotos()
+            refresh()
         }
-    }
-
-    fun refreshPhotos() {
-        fetchPhotos { viewModel.refresh() }
-    }
-
-    override fun paginate() {
-        fetchPhotos { viewModel.paginate() }
-    }
-
-    private fun fetchPhotos(block: suspend () -> Flow<Resource<List<Photo>>>) {
-        photoFetchingJob?.cancel()
-        photoFetchingJob = lifecycleScope.launchWhenStarted {
-            block().collect {
-                handlePhotos(it)
-            }
-        }
+        observePhotos()
+        observeErrors()
     }
 
     fun setUpRecyclerView() {
@@ -83,22 +76,29 @@ class PhotoShowcaseFragment @Inject constructor(
         }
     }
 
-    fun handlePhotos(resource: Resource<List<Photo>>) {
-        error.gone()
+    fun observePhotos() {
+        viewModel.photos.observe(viewLifecycleOwner) {
+            error.gone()
 
-        when (resource) {
-            is Resource.Loading -> {
-                swipe_refresh_layout.isRefreshing = true
-                resource.data?.let(::submitList)
+            when (it) {
+                is Resource.Loading -> {
+                    swipe_refresh_layout.isRefreshing = true
+                    it.data?.let(::submitList)
+                }
+                is Resource.Success, is Resource.Error -> {
+                    swipe_refresh_layout.isRefreshing = false
+                    it.data?.let(::emptyResultsHandlingSubmission)
+                }
             }
-            is Resource.Success -> {
-                swipe_refresh_layout.isRefreshing = false
-                resource.data?.let(::emptyResultsHandlingSubmission)
-            }
-            is Resource.Error -> {
-                swipe_refresh_layout.isRefreshing = false
-                resource.data?.let(::emptyResultsHandlingSubmission)
-                Snackbar.make(requireView(), "Something went terribly wrong: ${resource.throwable.message}", Snackbar.LENGTH_LONG)
+        }
+    }
+
+    fun observeErrors() {
+        viewModel.error.observe(viewLifecycleOwner) {
+            it ?: return@observe
+
+            it.getContentIfNotHandled()?.let { throwable ->
+                Snackbar.make(view!!, "Something went terribly wrong: ${throwable.message}", Snackbar.LENGTH_LONG)
                     .show()
             }
         }
