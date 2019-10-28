@@ -40,11 +40,12 @@ class PhotoShowcaseViewModel @Inject constructor(
     }
 
     private fun setPhotosRequest(photosRequest: PhotosRequest) {
-        this.photosRequest = photosRequest
-
         fetchPhotosJob?.cancel()
         fetchPhotosJob = viewModelScope.launch {
             repository.getPhotos(photosRequest, purgeOldData = photosRequest.page == 1).collect {
+                if (it is Resource.Success) {
+                    this@PhotoShowcaseViewModel.photosRequest = photosRequest
+                }
                 _photos.value = it
             }
         }
