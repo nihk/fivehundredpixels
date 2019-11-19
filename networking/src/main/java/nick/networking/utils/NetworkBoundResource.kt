@@ -6,23 +6,22 @@ import nick.core.Resource
 abstract class NetworkBoundResource<T> {
 
     fun asFlow(): Flow<Resource<T>> = flow {
-        val flow = query()
-            .onStart { emit(Resource.Loading<T>(null)) }
-            .flatMapConcat { data ->
-                if (shouldFetch(data)) {
-                    emit(Resource.Loading(data))
+        emit(Resource.Loading(null))
+        val data = query().first()
 
-                    try {
-                        saveFetchResult(fetch())
-                        query().map { Resource.Success(it) }
-                    } catch (throwable: Throwable) {
-                        onFetchFailed(throwable)
-                        query().map { Resource.Error(throwable, it) }
-                    }
-                } else {
-                    query().map { Resource.Success(it) }
-                }
+        val flow = if (shouldFetch(data)) {
+            emit(Resource.Loading(data))
+
+            try {
+                saveFetchResult(fetch())
+                query().map { Resource.Success(it) }
+            } catch (throwable: Throwable) {
+                onFetchFailed(throwable)
+                query().map { Resource.Error(throwable, it) }
             }
+        } else {
+            query().map { Resource.Success(it) }
+        }
 
         emitAll(flow)
     }
