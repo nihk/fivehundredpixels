@@ -23,11 +23,11 @@ class PhotoShowcaseViewModel @Inject constructor(
     private val _photos = MutableLiveData<Resource<List<Photo>>>()
     val photos: LiveData<Resource<List<Photo>>> = _photos
 
-    val error = photos.map {
-        if (it is Resource.Error) {
-            Event(it.throwable)
-        } else {
-            null
+    val error = MediatorLiveData<Event<Throwable>>().apply {
+        addSource(photos) {
+            if (it is Resource.Error) {
+                value = Event(it.throwable)
+            }
         }
     }
 
