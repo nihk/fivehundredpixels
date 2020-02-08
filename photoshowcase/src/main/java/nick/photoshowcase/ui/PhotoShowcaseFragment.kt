@@ -59,6 +59,7 @@ class PhotoShowcaseFragment @Inject constructor(
         swipe_refresh_layout.setOnRefreshListener {
             refresh()
         }
+        observeLoading()
         observePhotos()
         observeErrors()
     }
@@ -81,14 +82,16 @@ class PhotoShowcaseFragment @Inject constructor(
             error.gone()
 
             when (it) {
-                is Resource.Loading -> {
-                    swipe_refresh_layout.isRefreshing = true
-                }
                 is Resource.Success, is Resource.Error -> {
-                    swipe_refresh_layout.isRefreshing = false
                     it.data?.let(::emptyResultsHandlingSubmission)
                 }
             }
+        }
+    }
+
+    fun observeLoading() {
+        viewModel.loading.observe(viewLifecycleOwner) {
+            swipe_refresh_layout.isRefreshing = it
         }
     }
 
