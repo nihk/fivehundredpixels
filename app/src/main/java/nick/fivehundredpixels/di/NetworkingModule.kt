@@ -1,6 +1,7 @@
 package nick.fivehundredpixels.di
 
 import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
@@ -27,9 +28,17 @@ object NetworkingModule {
     }
 
     @Provides
-    fun moshi(photosJsonAdapter: PhotosJsonAdapter, moshiBuilder: Moshi.Builder): Moshi {
+    fun kotlinJsonAdapterFactory() = KotlinJsonAdapterFactory()
+
+    @Provides
+    fun moshi(
+        photosJsonAdapter: PhotosJsonAdapter,
+        kotlinJsonAdapterFactory: KotlinJsonAdapterFactory,
+        moshiBuilder: Moshi.Builder
+    ): Moshi {
         return moshiBuilder
             .add(photosJsonAdapter)
+            .add(kotlinJsonAdapterFactory)
             .build()
     }
 
@@ -38,7 +47,11 @@ object NetworkingModule {
 
     @Provides
     fun httpLogger(logger: Logger): HttpLoggingInterceptor.Logger {
-        return HttpLoggingInterceptor.Logger(logger::d)
+        return object : HttpLoggingInterceptor.Logger {
+            override fun log(message: String) {
+                logger.d(message)
+            }
+        }
     }
 
     @Provides

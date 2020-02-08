@@ -83,7 +83,6 @@ class PhotoShowcaseFragment @Inject constructor(
             when (it) {
                 is Resource.Loading -> {
                     swipe_refresh_layout.isRefreshing = true
-                    it.data?.let(::submitList)
                 }
                 is Resource.Success, is Resource.Error -> {
                     swipe_refresh_layout.isRefreshing = false

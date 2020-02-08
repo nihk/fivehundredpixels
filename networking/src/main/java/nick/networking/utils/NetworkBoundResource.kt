@@ -5,7 +5,7 @@ import nick.core.Resource
 
 abstract class NetworkBoundResource<T> {
 
-    fun asFlow(): Flow<Resource<T>> = flow {
+    fun asFlow() = flow<Resource<T>> {
         emit(Resource.Loading(null))
         val data = query().first()
 
