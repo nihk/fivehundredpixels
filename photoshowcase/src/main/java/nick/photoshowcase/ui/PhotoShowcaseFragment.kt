@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_photo_showcase.*
 import nick.core.Logger
-import nick.core.Resource
 import nick.data.models.Photo
 import nick.photoshowcase.R
 import nick.photoshowcase.vm.PhotoShowcaseViewModel
@@ -41,7 +40,7 @@ class PhotoShowcaseFragment @Inject constructor(
         super.onCreate(savedInstanceState)
 
         if (savedInstanceState == null || viewModel.photos.value == null) {
-            viewModel.refresh()
+            refresh()
         }
     }
 
@@ -78,13 +77,12 @@ class PhotoShowcaseFragment @Inject constructor(
     }
 
     fun observePhotos() {
-        viewModel.photos.observe(viewLifecycleOwner) {
-            error.gone()
-
-            when (it) {
-                is Resource.Success, is Resource.Error -> {
-                    it.data?.let(::emptyResultsHandlingSubmission)
-                }
+        viewModel.photos.observe(viewLifecycleOwner) { photos ->
+            if (photos.isEmpty() && adapter.itemCount == 0) {
+                error.visible()
+            } else {
+                error.gone()
+                submitList(photos)
             }
         }
     }
@@ -101,14 +99,6 @@ class PhotoShowcaseFragment @Inject constructor(
                 Snackbar.make(view!!, "Something went terribly wrong: ${throwable.message}", Snackbar.LENGTH_LONG)
                     .show()
             }
-        }
-    }
-
-    fun emptyResultsHandlingSubmission(photos: List<Photo>) {
-        if (photos.isEmpty() && adapter.itemCount == 0) {
-            error.visible()
-        } else {
-            submitList(photos)
         }
     }
 

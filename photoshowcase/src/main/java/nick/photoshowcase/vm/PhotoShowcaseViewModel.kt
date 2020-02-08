@@ -20,18 +20,25 @@ class PhotoShowcaseViewModel @Inject constructor(
 
     private var fetchPhotosJob: Job? = null
 
-    private val _photos = MutableLiveData<Resource<List<Photo>>>()
-    val photos: LiveData<Resource<List<Photo>>> = _photos
+    private val _photosState = MutableLiveData<Resource<List<Photo>>>()
+
+    val photos: MediatorLiveData<List<Photo>> = MediatorLiveData<List<Photo>>().apply {
+        addSource(_photosState) {
+            if (it is Resource.Success || it is Resource.Error) {
+                value = it.data
+            }
+        }
+    }
 
     val error = MediatorLiveData<Event<Throwable>>().apply {
-        addSource(photos) {
+        addSource(_photosState) {
             if (it is Resource.Error) {
                 value = Event(it.throwable)
             }
         }
     }
 
-    val loading = photos.map { it is Resource.Loading }
+    val loading = _photosState.map { it is Resource.Loading }
 
     fun refresh() {
         setPhotosRequest(photosRequest.copy(page = 1))
@@ -45,7 +52,7 @@ class PhotoShowcaseViewModel @Inject constructor(
         setPhotosRequest(photosRequest.copy(page = photosRequest.page + 1))
     }
 
-    fun isLoading() = photos.value is Resource.Loading
+    fun isLoading() = _photosState.value is Resource.Loading
 
     private fun setPhotosRequest(photosRequest: PhotosRequest) {
         fetchPhotosJob?.cancel()
@@ -55,7 +62,7 @@ class PhotoShowcaseViewModel @Inject constructor(
                     this@PhotoShowcaseViewModel.photosRequest = photosRequest
                 }
 
-                _photos.value = it
+                _photosState.value = it
             }
         }
     }
