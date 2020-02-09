@@ -17,7 +17,7 @@ class PhotoShowcaseViewModel @Inject constructor(
     @InitialPhotosRequest
     private var photosRequest: PhotosRequest,
     @PaginationThreshold
-    private val paginationThreshold: Int
+    val paginationThreshold: Int
 ) : ViewModel() {
 
     private var fetchPhotosJob: Job? = null
@@ -53,8 +53,6 @@ class PhotoShowcaseViewModel @Inject constructor(
 
         setPhotosRequest(photosRequest.copy(page = photosRequest.page + 1))
     }
-
-    fun paginationThreshold() = paginationThreshold
 
     fun retry() {
         setPhotosRequest(photosRequest)

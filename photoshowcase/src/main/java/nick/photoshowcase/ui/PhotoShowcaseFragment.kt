@@ -52,7 +52,7 @@ class PhotoShowcaseFragment @Inject constructor(
         viewModel.paginate()
     }
 
-    override fun paginationThreshold() = viewModel.paginationThreshold()
+    override fun paginationThreshold() = viewModel.paginationThreshold
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
