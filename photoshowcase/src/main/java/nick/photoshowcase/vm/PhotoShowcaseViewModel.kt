@@ -23,17 +23,17 @@ class PhotoShowcaseViewModel @Inject constructor(
 
     private var fetchPhotosJob: Job? = null
 
-    private val _photosState = MutableLiveData<Resource<List<Photo>>>()
+    private val photosState = MutableLiveData<Resource<List<Photo>>>()
 
     val photos: MediatorLiveData<List<Photo>> = MediatorLiveData<List<Photo>>().apply {
-        addSource(_photosState) {
+        addSource(photosState) {
             if (it is Resource.Success || it is Resource.Error) {
                 value = it.data
             }
         }
     }
 
-    val error = _photosState.map {
+    val error = photosState.map {
         if (it is Resource.Error) {
             it.throwable
         } else {
@@ -41,29 +41,29 @@ class PhotoShowcaseViewModel @Inject constructor(
         }
     }
 
-    val loading = _photosState.map { it is Resource.Loading && photosRequest.page == 1 }
+    val loading = photosState.map { it is Resource.Loading && photosRequest.page == 1 }
 
     fun refresh() {
-        setPhotosRequest(photosRequest.copy(page = 1))
+        requestPhotos(photosRequest.copy(page = 1))
     }
 
     fun paginate() {
-        if (_photosState.value !is Resource.Success) {
+        if (photosState.value !is Resource.Success) {
             return
         }
 
-        setPhotosRequest(photosRequest.copy(page = photosRequest.page + 1))
+        requestPhotos(photosRequest.copy(page = photosRequest.page + 1))
     }
 
     fun retry() {
-        setPhotosRequest(photosRequest)
+        requestPhotos(photosRequest)
     }
 
-    private fun setPhotosRequest(photosRequest: PhotosRequest) {
+    private fun requestPhotos(photosRequest: PhotosRequest) {
         fetchPhotosJob?.cancel()
         fetchPhotosJob = repository.getPhotos(photosRequest, purgeOldData = photosRequest.page == 1)
             .onStart { this@PhotoShowcaseViewModel.photosRequest = photosRequest }
-            .onEach { _photosState.value = it }
+            .onEach { photosState.value = it }
             .launchIn(viewModelScope)
     }
 }
