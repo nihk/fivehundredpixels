@@ -1,7 +1,6 @@
 package nick.photoshowcase.repositories
 
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import nick.core.Logger
 import nick.core.Resource
 import nick.data.daos.PhotosDao
@@ -21,9 +20,7 @@ class PhotoShowcaseRepository @Inject constructor(
         return object : NetworkBoundResource<List<Photo>>() {
 
             override fun query(): Flow<List<Photo>> {
-                return photosDao.queryAll().map { photos ->
-                    photos.distinctBy { it.id }
-                }
+                return photosDao.queryAll()
             }
 
             override suspend fun fetch(): List<Photo> {

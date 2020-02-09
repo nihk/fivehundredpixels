@@ -16,7 +16,7 @@ class PhotoViewHolder(
 
     fun bind(photo: Photo) {
         itemView.setOnClickListener {
-            onPhotoClickedListener.onPhotoClicked(photo.id)
+            onPhotoClickedListener.onPhotoClicked(photo.localId)
         }
 
         with(itemView.photo) {

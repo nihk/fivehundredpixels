@@ -11,7 +11,7 @@ class PhotosJsonAdapter @Inject constructor() {
     fun fromJson(photogallery: Photogallery): List<Photo> {
         return photogallery.photos.map {
             Photo(
-                id = it.id,
+                remoteId = it.id,
                 name = it.name,
                 description = it.description,
                 smallImage = it.image_url.first(),

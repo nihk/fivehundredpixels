@@ -15,12 +15,13 @@ interface PhotosDao
     """)
     fun queryAll(): Flow<List<Photo>>
 
-    @Query("""
+    @Query(
+        """
         SELECT *
         FROM photos
-        WHERE id = :id
+        WHERE localId = :localId
     """)
-    fun queryById(id: Long): Flow<Photo?>
+    fun queryByLocalId(localId: Long): Flow<Photo?>
 
     @Query("""
         DELETE

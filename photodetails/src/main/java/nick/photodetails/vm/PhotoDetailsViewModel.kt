@@ -11,6 +11,6 @@ class PhotoDetailsViewModel @Inject constructor(
 ) : ViewModel() {
 
     fun getPhoto(id: Long): Flow<Photo?> {
-        return photosDao.queryById(id)
+        return photosDao.queryByLocalId(id)
     }
 }

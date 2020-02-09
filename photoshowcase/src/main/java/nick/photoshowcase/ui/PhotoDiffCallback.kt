@@ -7,10 +7,14 @@ object PhotoDiffCallback
     : DiffUtil.ItemCallback<Photo>() {
 
     override fun areItemsTheSame(oldItem: Photo, newItem: Photo): Boolean {
-        return oldItem.id == newItem.id
+        return oldItem.remoteId == newItem.remoteId
     }
 
     override fun areContentsTheSame(oldItem: Photo, newItem: Photo): Boolean {
-        return oldItem == newItem
+        return oldItem.name == newItem.name
+                && oldItem.description == newItem.description
+                && oldItem.smallImage == newItem.smallImage
+                && oldItem.width == newItem.width
+                && oldItem.height == newItem.height
     }
 }

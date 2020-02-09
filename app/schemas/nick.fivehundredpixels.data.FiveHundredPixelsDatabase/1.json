@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "855ebb73a1e0322840ddd9633ea56570",
+    "identityHash": "1c68a45ab4d7bb820e913a86d155efea",
     "entities": [
       {
         "tableName": "photos",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `id` INTEGER NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `smallImage` TEXT NOT NULL, `largeImage` TEXT NOT NULL, `feature` TEXT NOT NULL, `width` INTEGER NOT NULL, `height` INTEGER NOT NULL, `rating` REAL NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `remoteId` INTEGER NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `smallImage` TEXT NOT NULL, `largeImage` TEXT NOT NULL, `feature` TEXT NOT NULL, `width` INTEGER NOT NULL, `height` INTEGER NOT NULL, `rating` REAL NOT NULL)",
         "fields": [
           {
             "fieldPath": "localId",
@@ -15,8 +15,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "id",
-            "columnName": "id",
+            "fieldPath": "remoteId",
+            "columnName": "remoteId",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -75,14 +75,23 @@
           ],
           "autoGenerate": true
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_photos_remoteId",
+            "unique": true,
+            "columnNames": [
+              "remoteId"
+            ],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_photos_remoteId` ON `${TABLE_NAME}` (`remoteId`)"
+          }
+        ],
         "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '855ebb73a1e0322840ddd9633ea56570')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '1c68a45ab4d7bb820e913a86d155efea')"
     ]
   }
 }
