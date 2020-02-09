@@ -8,6 +8,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.transition.TransitionManager
 import coil.Coil
@@ -45,7 +46,7 @@ class PhotoDetailsFragment @Inject constructor(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        back.setOnClickListener { requireActivity().onBackPressed() }
+        back.setOnClickListener { findNavController().popBackStack() }
         setUpConstraintSetAnimations(view.findViewById(R.id.constraint_layout))
     }
 
