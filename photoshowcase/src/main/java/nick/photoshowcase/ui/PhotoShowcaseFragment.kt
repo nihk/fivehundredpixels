@@ -88,17 +88,18 @@ class PhotoShowcaseFragment @Inject constructor(
     }
 
     fun observeLoading() {
-        viewModel.isLoading.observe(viewLifecycleOwner) {
+        viewModel.loading.observe(viewLifecycleOwner) {
             swipe_refresh_layout.isRefreshing = it
         }
     }
 
     fun observeErrors() {
-        viewModel.error.observe(viewLifecycleOwner) {
-            it?.getContentIfNotHandled()?.let { throwable ->
-                Snackbar.make(view!!, "Something went terribly wrong: ${throwable.message}", Snackbar.LENGTH_LONG)
-                    .show()
-            }
+        viewModel.error.observe(viewLifecycleOwner) { throwable: Throwable? ->
+            throwable ?: return@observe
+
+            Snackbar.make(view!!, "Something went terribly wrong: ${throwable.message}", Snackbar.LENGTH_INDEFINITE)
+                .setAction(R.string.retry_error_prompt) { viewModel.retry() }
+                .show()
         }
     }
 

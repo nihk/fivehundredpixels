@@ -4,7 +4,6 @@ import androidx.lifecycle.*
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import nick.core.Event
 import nick.core.Resource
 import nick.data.models.Photo
 import nick.networking.services.PhotosRequest
@@ -30,36 +29,38 @@ class PhotoShowcaseViewModel @Inject constructor(
         }
     }
 
-    val error = MediatorLiveData<Event<Throwable>>().apply {
-        addSource(_photosState) {
-            if (it is Resource.Error) {
-                value = Event(it.throwable)
-            }
+    val error = _photosState.map {
+        if (it is Resource.Error) {
+            it.throwable
+        } else {
+            null
         }
     }
 
-    val isLoading = _photosState.map { it is Resource.Loading }
+    val loading = _photosState.map { it is Resource.Loading && photosRequest.page == 1 }
 
     fun refresh() {
         setPhotosRequest(photosRequest.copy(page = 1))
     }
 
     fun paginate() {
-        if (isLoading.value == true) {
+        if (_photosState.value !is Resource.Success) {
             return
         }
 
         setPhotosRequest(photosRequest.copy(page = photosRequest.page + 1))
     }
 
+    fun retry() {
+        setPhotosRequest(photosRequest)
+    }
+
     private fun setPhotosRequest(photosRequest: PhotosRequest) {
         fetchPhotosJob?.cancel()
         fetchPhotosJob = viewModelScope.launch {
-            repository.getPhotos(photosRequest, purgeOldData = photosRequest.page == 1).collect {
-                if (it is Resource.Success) {
-                    this@PhotoShowcaseViewModel.photosRequest = photosRequest
-                }
+            this@PhotoShowcaseViewModel.photosRequest = photosRequest
 
+            repository.getPhotos(photosRequest, purgeOldData = photosRequest.page == 1).collect {
                 _photosState.value = it
             }
         }
