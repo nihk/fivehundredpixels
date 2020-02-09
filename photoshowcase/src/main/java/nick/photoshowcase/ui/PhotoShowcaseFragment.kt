@@ -57,9 +57,7 @@ class PhotoShowcaseFragment @Inject constructor(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpRecyclerView()
-        swipe_refresh_layout.setOnRefreshListener {
-            refresh()
-        }
+        swipe_refresh_layout.setOnRefreshListener(::refresh)
         observeLoading()
         observePhotos()
         observeErrors()

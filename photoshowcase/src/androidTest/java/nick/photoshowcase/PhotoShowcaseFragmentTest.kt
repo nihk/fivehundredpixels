@@ -89,7 +89,7 @@ class PhotoShowcaseFragmentTest {
         )
 
         val vmProvider = Provider<PhotoShowcaseViewModel> {
-            PhotoShowcaseViewModel(repository, PhotosRequest())
+            PhotoShowcaseViewModel(repository, PhotosRequest(), 15)
         }
         val fragment = PhotoShowcaseFragment(vmProvider, logger)
 
