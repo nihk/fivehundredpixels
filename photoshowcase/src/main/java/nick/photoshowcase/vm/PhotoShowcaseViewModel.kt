@@ -38,21 +38,19 @@ class PhotoShowcaseViewModel @Inject constructor(
         }
     }
 
-    val loading = _photosState.map { it is Resource.Loading }
+    val isLoading = _photosState.map { it is Resource.Loading }
 
     fun refresh() {
         setPhotosRequest(photosRequest.copy(page = 1))
     }
 
     fun paginate() {
-        if (isLoading()) {
+        if (isLoading.value == true) {
             return
         }
 
         setPhotosRequest(photosRequest.copy(page = photosRequest.page + 1))
     }
-
-    fun isLoading() = _photosState.value is Resource.Loading
 
     private fun setPhotosRequest(photosRequest: PhotosRequest) {
         fetchPhotosJob?.cancel()

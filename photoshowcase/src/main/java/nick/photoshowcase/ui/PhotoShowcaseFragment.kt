@@ -88,7 +88,7 @@ class PhotoShowcaseFragment @Inject constructor(
     }
 
     fun observeLoading() {
-        viewModel.loading.observe(viewLifecycleOwner) {
+        viewModel.isLoading.observe(viewLifecycleOwner) {
             swipe_refresh_layout.isRefreshing = it
         }
     }
