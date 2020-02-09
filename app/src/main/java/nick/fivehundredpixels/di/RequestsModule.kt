@@ -5,6 +5,7 @@ import dagger.Provides
 import dagger.Reusable
 import nick.networking.services.PhotosRequest
 import nick.photoshowcase.di.InitialPhotosRequest
+import nick.photoshowcase.di.PaginationThreshold
 
 @Module
 object RequestsModule {
@@ -20,4 +21,9 @@ object RequestsModule {
             pageSize = 40
         )
     }
+
+    @Reusable
+    @Provides
+    @PaginationThreshold
+    fun paginationThreshold(): Int = 15
 }

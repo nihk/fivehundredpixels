@@ -8,13 +8,16 @@ import nick.core.Resource
 import nick.data.models.Photo
 import nick.networking.services.PhotosRequest
 import nick.photoshowcase.di.InitialPhotosRequest
+import nick.photoshowcase.di.PaginationThreshold
 import nick.photoshowcase.repositories.PhotoShowcaseRepository
 import javax.inject.Inject
 
 class PhotoShowcaseViewModel @Inject constructor(
     private val repository: PhotoShowcaseRepository,
     @InitialPhotosRequest
-    private var photosRequest: PhotosRequest
+    private var photosRequest: PhotosRequest,
+    @PaginationThreshold
+    private val paginationThreshold: Int
 ) : ViewModel() {
 
     private var fetchPhotosJob: Job? = null
@@ -50,6 +53,8 @@ class PhotoShowcaseViewModel @Inject constructor(
 
         setPhotosRequest(photosRequest.copy(page = photosRequest.page + 1))
     }
+
+    fun paginationThreshold() = paginationThreshold
 
     fun retry() {
         setPhotosRequest(photosRequest)
