@@ -3,30 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/app_navigation"
-    app:startDestination="@id/photoShowcaseFragment">
+    app:startDestination="@id/photoshowcase_graph"
+    tools:ignore="UnusedNavigation">
 
-    <fragment
-        android:id="@+id/photoShowcaseFragment"
-        android:name="nick.photoshowcase.ui.PhotoShowcaseFragment"
-        android:label="PhotoShowcaseFragment"
-        tools:layout="@layout/fragment_photo_showcase">
-
-        <action
-            android:id="@+id/to_details"
-            app:destination="@id/photodetails_navigation"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim">
-
-            <argument
-                android:name="id"
-                app:argType="long" />
-
-        </action>
-
-    </fragment>
-
-    <include app:graph="@navigation/photodetails_navigation" />
+    <include app:graph="@navigation/photoshowcase_graph" />
+    <include app:graph="@navigation/photodetails_graph" />
 
 </navigation>

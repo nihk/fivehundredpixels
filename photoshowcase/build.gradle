@@ -49,6 +49,8 @@ dependencies {
     implementation deps.swiperefreshlayout
     implementation deps.core_ktx
     implementation deps.constraintlayout
+    implementation deps.navigation.runtime_ktx
+    implementation deps.navigation.fragment_ktx
     implementation deps.multidex
     implementation deps.coil
     implementation deps.lifecycle.livedata_ktx

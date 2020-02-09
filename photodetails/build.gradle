@@ -43,6 +43,7 @@ dependencies {
     implementation deps.core_ktx
     implementation deps.constraintlayout
     implementation deps.photo_view
+    implementation deps.navigation.runtime_ktx
     implementation deps.navigation.fragment_ktx
     implementation deps.coil
     implementation deps.lifecycle.runtime
