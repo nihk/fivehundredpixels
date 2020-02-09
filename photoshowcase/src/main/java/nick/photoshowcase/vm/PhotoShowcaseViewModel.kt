@@ -2,8 +2,9 @@ package nick.photoshowcase.vm
 
 import androidx.lifecycle.*
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
 import nick.core.Resource
 import nick.data.models.Photo
 import nick.networking.services.PhotosRequest
@@ -60,12 +61,9 @@ class PhotoShowcaseViewModel @Inject constructor(
 
     private fun setPhotosRequest(photosRequest: PhotosRequest) {
         fetchPhotosJob?.cancel()
-        fetchPhotosJob = viewModelScope.launch {
-            this@PhotoShowcaseViewModel.photosRequest = photosRequest
-
-            repository.getPhotos(photosRequest, purgeOldData = photosRequest.page == 1).collect {
-                _photosState.value = it
-            }
-        }
+        fetchPhotosJob = repository.getPhotos(photosRequest, purgeOldData = photosRequest.page == 1)
+            .onStart { this@PhotoShowcaseViewModel.photosRequest = photosRequest }
+            .onEach { _photosState.value = it }
+            .launchIn(viewModelScope)
     }
 }
