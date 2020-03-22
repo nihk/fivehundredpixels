@@ -43,6 +43,10 @@ class PhotoShowcaseViewModel @Inject constructor(
 
     val loading = photosState.map { it is Resource.Loading && photosRequest.page == 1 }
 
+    init {
+        refresh()
+    }
+
     fun refresh() {
         requestPhotos(photosRequest.copy(page = 1))
     }

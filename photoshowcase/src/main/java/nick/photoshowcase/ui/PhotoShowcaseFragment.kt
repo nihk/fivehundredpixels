@@ -36,14 +36,6 @@ class PhotoShowcaseFragment @Inject constructor(
         listener = context as OnPhotoClickedListener
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        if (savedInstanceState == null || viewModel.photos.value == null) {
-            refresh()
-        }
-    }
-
     fun refresh() {
         viewModel.refresh()
     }
