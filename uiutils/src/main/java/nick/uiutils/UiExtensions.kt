@@ -20,6 +20,14 @@ fun View.gone() {
     visibility = View.GONE
 }
 
+fun View.visibleOrGone(shouldBeVisible: Boolean) {
+    if (shouldBeVisible) {
+        visible()
+    } else {
+        gone()
+    }
+}
+
 inline fun <reified T : ViewModel> Fragment.viewModel(
     crossinline provider: () -> T
 ) = viewModels<T> {

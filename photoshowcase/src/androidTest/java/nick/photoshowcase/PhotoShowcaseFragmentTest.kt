@@ -41,18 +41,18 @@ class PhotoShowcaseFragmentTest {
     val logger: Logger = mock()
 
     @Test
-    fun errorAppearsWhenResultsAreEmpty() {
+    fun emptyAppearsWhenResultsAreEmpty() {
         launchPhotoShowcaseFragmentWithFakeService(EmptyFiveHundredPixelsService)
 
-        onView(withId(R.id.error))
+        onView(withId(R.id.empty))
             .check(matches(isDisplayed()))
     }
 
     @Test
-    fun errorAppearsWhenErrorHappensAndResultsAreEmpty() {
+    fun emptyAppearsWhenErrorHappensAndResultsAreEmpty() {
         launchPhotoShowcaseFragmentWithFakeService(ErrorFiveHundredPixelsService)
 
-        onView(withId(R.id.error))
+        onView(withId(R.id.empty))
             .check(matches(isDisplayed()))
     }
 
@@ -62,7 +62,7 @@ class PhotoShowcaseFragmentTest {
 
         onView(withId(R.id.recycler_view))
             .check(matches(withItemCount(photos.size)))
-        onView(withId(R.id.error))
+        onView(withId(R.id.empty))
             .check(matches(not(isDisplayed())))
     }
 
@@ -73,7 +73,7 @@ class PhotoShowcaseFragmentTest {
 
         onView(withId(R.id.recycler_view))
             .check(matches(withItemCount(morePhotos.size)))
-        onView(withId(R.id.error))
+        onView(withId(R.id.empty))
             .check(matches(not(isDisplayed())))
     }
 

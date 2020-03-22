@@ -12,10 +12,7 @@ import nick.core.Logger
 import nick.data.models.Photo
 import nick.photoshowcase.R
 import nick.photoshowcase.vm.PhotoShowcaseViewModel
-import nick.uiutils.StaggeredItemDecoration
-import nick.uiutils.gone
-import nick.uiutils.viewModel
-import nick.uiutils.visible
+import nick.uiutils.*
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -70,12 +67,13 @@ class PhotoShowcaseFragment @Inject constructor(
 
     fun observePhotos() {
         viewModel.photos.observe(viewLifecycleOwner) { photos ->
-            if (photos.isEmpty() && adapter.itemCount == 0) {
-                error.visible()
-            } else {
-                error.gone()
+            val isEmpty = photos.isEmpty() && adapter.itemCount == 0
+
+            if (!isEmpty) {
                 submitList(photos)
             }
+
+            empty.visibleOrGone(isEmpty)
         }
     }
 
