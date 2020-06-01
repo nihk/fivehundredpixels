@@ -3,36 +3,29 @@ package nick.networking.utils
 import kotlinx.coroutines.flow.*
 import nick.core.Resource
 
-abstract class NetworkBoundResource<T> {
+inline fun <ResultType, RequestType> networkBoundResource(
+    crossinline query: () -> Flow<ResultType>,
+    crossinline fetch: suspend () -> RequestType,
+    crossinline onFetchSucceeded: suspend (RequestType) -> Unit,
+    crossinline onFetchFailed: (Throwable) -> Unit = { Unit },
+    crossinline shouldFetch: (ResultType) -> Boolean = { true }
+) = flow<Resource<ResultType>> {
+    emit(Resource.Loading())
 
-    fun asFlow() = flow<Resource<T>> {
-        emit(Resource.Loading(null))
-        val data = query().first()
+    val data = query().first()
+    val flow: Flow<Resource<ResultType>> = if (shouldFetch(data)) {
+        emit(Resource.Loading(data))
 
-        val flow = if (shouldFetch(data)) {
-            emit(Resource.Loading(data))
-
-            try {
-                saveFetchResult(fetch())
-                query().map { Resource.Success(it) }
-            } catch (throwable: Throwable) {
-                onFetchFailed(throwable)
-                query().map { Resource.Error(throwable, it) }
-            }
-        } else {
+        try {
+            onFetchSucceeded(fetch())
             query().map { Resource.Success(it) }
+        } catch (throwable: Throwable) {
+            onFetchFailed(throwable)
+            query().map { Resource.Error(throwable, it) }
         }
-
-        emitAll(flow)
+    } else {
+        query().map { Resource.Success(it) }
     }
 
-    abstract fun query(): Flow<T>
-
-    abstract suspend fun fetch(): T
-
-    abstract suspend fun saveFetchResult(data: T)
-
-    open fun onFetchFailed(throwable: Throwable) = Unit
-
-    open fun shouldFetch(data: T) = true
+    emitAll(flow)
 }
