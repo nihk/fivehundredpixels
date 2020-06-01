@@ -5,13 +5,13 @@ import nick.core.Logger
 import nick.core.Resource
 import nick.data.daos.PhotosDao
 import nick.data.models.Photo
-import nick.networking.services.FiveHundredPixelsService
+import nick.networking.services.FiveHundredPixelsServiceWrapper
 import nick.networking.services.PhotosRequest
 import nick.networking.utils.networkBoundResource
 import javax.inject.Inject
 
 class PhotoShowcaseRepository @Inject constructor(
-    private val fiveHundredPixelsService: FiveHundredPixelsService,
+    private val serviceWrapper: FiveHundredPixelsServiceWrapper,
     private val photosDao: PhotosDao,
     private val logger: Logger
 ) {
@@ -23,15 +23,7 @@ class PhotoShowcaseRepository @Inject constructor(
             query = { photosDao.queryAll() },
             fetch = {
                 logger.d("Fetching $photosRequest")
-                with(photosRequest) {
-                    fiveHundredPixelsService.getPhotos(
-                        feature = feature,
-                        imageSize = imageSize,
-                        page = page,
-                        pageSize = pageSize,
-                        consumerKey = consumerKey
-                    )
-                }
+                serviceWrapper.getPhotos(photosRequest)
             },
             onFetchSucceeded = { data ->
                 if (purgeOldData) {
