@@ -1,4 +1,4 @@
-package nick.networking.services
+package nick.photos.services
 
 data class PhotosRequest(
     val feature: String? = null,

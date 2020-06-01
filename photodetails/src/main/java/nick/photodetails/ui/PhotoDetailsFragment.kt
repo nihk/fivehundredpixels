@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.fragment_photo_details_with_controls.*
 import kotlinx.android.synthetic.main.share.*
 import kotlinx.coroutines.flow.collect
 import nick.core.Logger
-import nick.data.models.Photo
+import nick.photos.localmodels.Photo
 import nick.photodetails.R
 import nick.photodetails.vm.PhotoDetailsViewModel
 import nick.uiutils.ThumbnailZoomCoordinator

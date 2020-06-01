@@ -3,7 +3,7 @@ package nick.fivehundredpixels.di
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
-import nick.networking.services.PhotosRequest
+import nick.photos.services.PhotosRequest
 import nick.photoshowcase.di.InitialPhotosRequest
 import nick.photoshowcase.di.PaginationThreshold
 

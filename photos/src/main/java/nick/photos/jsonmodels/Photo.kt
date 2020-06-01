@@ -1,4 +1,4 @@
-package nick.networking.jsonmodels
+package nick.photos.jsonmodels
 
 data class Photo(
     val id: Long,

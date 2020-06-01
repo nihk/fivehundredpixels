@@ -24,12 +24,15 @@ android {
 
     kotlinOptions {
         jvmTarget = "1.8"
+        freeCompilerArgs += [
+                "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi"
+        ]
     }
 }
 
 dependencies {
     implementation project(":core")
-    implementation project(":data")
+    implementation project(":photos")
     implementation project(":uiutils")
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])

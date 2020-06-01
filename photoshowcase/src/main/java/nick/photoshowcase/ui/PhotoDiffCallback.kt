@@ -1,7 +1,7 @@
 package nick.photoshowcase.ui
 
 import androidx.recyclerview.widget.DiffUtil
-import nick.data.models.Photo
+import nick.photos.localmodels.Photo
 
 object PhotoDiffCallback
     : DiffUtil.ItemCallback<Photo>() {

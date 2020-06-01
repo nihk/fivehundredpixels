@@ -1,6 +1,6 @@
 package nick.photoshowcase.fakes
 
-import nick.data.models.Photo
+import nick.photos.localmodels.Photo
 
 val photos = listOf(
     Photo(1L, 1L, "a", "aa", "", "", "", 1, 1, 1.0),

@@ -3,11 +3,11 @@ package nick.photoshowcase.repositories
 import kotlinx.coroutines.flow.Flow
 import nick.core.Logger
 import nick.core.Resource
-import nick.data.daos.PhotosDao
-import nick.data.models.Photo
-import nick.networking.services.FiveHundredPixelsServiceWrapper
-import nick.networking.services.PhotosRequest
-import nick.networking.utils.networkBoundResource
+import nick.photos.daos.PhotosDao
+import nick.photos.localmodels.Photo
+import nick.photos.services.FiveHundredPixelsServiceWrapper
+import nick.photos.services.PhotosRequest
+import nick.core.networkBoundResource
 import javax.inject.Inject
 
 class PhotoShowcaseRepository @Inject constructor(

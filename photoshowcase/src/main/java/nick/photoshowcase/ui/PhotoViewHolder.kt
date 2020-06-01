@@ -5,7 +5,7 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
 import kotlinx.android.synthetic.main.item_photo.view.*
-import nick.data.models.Photo
+import nick.photos.localmodels.Photo
 
 class PhotoViewHolder(
     view: View,

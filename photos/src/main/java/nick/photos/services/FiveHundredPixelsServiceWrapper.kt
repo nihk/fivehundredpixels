@@ -1,6 +1,6 @@
-package nick.networking.services
+package nick.photos.services
 
-import nick.data.models.Photo
+import nick.photos.localmodels.Photo
 import javax.inject.Inject
 
 class FiveHundredPixelsServiceWrapper @Inject constructor(

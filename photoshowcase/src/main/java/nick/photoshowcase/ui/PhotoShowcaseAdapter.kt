@@ -3,7 +3,7 @@ package nick.photoshowcase.ui
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
-import nick.data.models.Photo
+import nick.photos.localmodels.Photo
 import nick.photoshowcase.R
 
 class PhotoShowcaseAdapter(

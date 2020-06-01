@@ -1,8 +1,8 @@
-package nick.networking.adapters
+package nick.photos.adapters
 
 import com.squareup.moshi.FromJson
-import nick.data.models.Photo
-import nick.networking.jsonmodels.Photogallery
+import nick.photos.jsonmodels.Photogallery
+import nick.photos.localmodels.Photo
 import javax.inject.Inject
 
 class PhotosJsonAdapter @Inject constructor() {

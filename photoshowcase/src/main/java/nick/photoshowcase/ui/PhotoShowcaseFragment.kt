@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_photo_showcase.*
 import nick.core.Logger
-import nick.data.models.Photo
+import nick.photos.localmodels.Photo
 import nick.photoshowcase.R
 import nick.photoshowcase.vm.PhotoShowcaseViewModel
 import nick.uiutils.*

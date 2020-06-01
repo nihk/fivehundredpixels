@@ -1,9 +1,10 @@
 package nick.photoshowcase.fakes
 
-import nick.data.models.Photo
-import nick.networking.services.FiveHundredPixelsService
+import nick.photos.localmodels.Photo
+import nick.photos.services.FiveHundredPixelsService
 
-object ErrorFiveHundredPixelsService : FiveHundredPixelsService {
+object ErrorFiveHundredPixelsService :
+    FiveHundredPixelsService {
 
     override suspend fun getPhotos(
         feature: String?,

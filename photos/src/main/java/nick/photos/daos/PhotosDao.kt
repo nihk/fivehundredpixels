@@ -1,9 +1,9 @@
-package nick.data.daos
+package nick.photos.daos
 
 import androidx.room.Dao
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
-import nick.data.models.Photo
+import nick.photos.localmodels.Photo
 
 @Dao
 interface PhotosDao

@@ -1,4 +1,4 @@
-package nick.data.daos
+package nick.photos.daos
 
 import androidx.room.Delete
 import androidx.room.Insert

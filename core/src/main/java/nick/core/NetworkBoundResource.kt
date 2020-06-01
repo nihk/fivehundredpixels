@@ -1,7 +1,6 @@
-package nick.networking.utils
+package nick.core
 
 import kotlinx.coroutines.flow.*
-import nick.core.Resource
 
 inline fun <ResultType, RequestType> networkBoundResource(
     crossinline query: () -> Flow<ResultType>,

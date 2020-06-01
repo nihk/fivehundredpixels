@@ -6,8 +6,8 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import nick.core.Resource
-import nick.data.models.Photo
-import nick.networking.services.PhotosRequest
+import nick.photos.localmodels.Photo
+import nick.photos.services.PhotosRequest
 import nick.photoshowcase.di.InitialPhotosRequest
 import nick.photoshowcase.di.PaginationThreshold
 import nick.photoshowcase.repositories.PhotoShowcaseRepository

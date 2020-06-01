@@ -2,8 +2,8 @@ package nick.fivehundredpixels.data
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import nick.data.models.Photo
-import nick.data.daos.PhotosDao
+import nick.photos.daos.PhotosDao
+import nick.photos.localmodels.Photo
 
 @Database(
     entities = [Photo::class],

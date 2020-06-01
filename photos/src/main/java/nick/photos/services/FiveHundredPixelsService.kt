@@ -1,6 +1,6 @@
-package nick.networking.services
+package nick.photos.services
 
-import nick.data.models.Photo
+import nick.photos.localmodels.Photo
 import retrofit2.http.GET
 import retrofit2.http.Query
 

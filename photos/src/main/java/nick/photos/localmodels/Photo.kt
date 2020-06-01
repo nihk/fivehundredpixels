@@ -1,4 +1,4 @@
-package nick.data.models
+package nick.photos.localmodels
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

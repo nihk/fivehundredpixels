@@ -6,8 +6,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.Reusable
 import nick.core.Logger
-import nick.networking.adapters.PhotosJsonAdapter
-import nick.networking.services.FiveHundredPixelsService
+import nick.photos.adapters.PhotosJsonAdapter
+import nick.photos.services.FiveHundredPixelsService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

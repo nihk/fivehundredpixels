@@ -8,24 +8,25 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import nick.core.Logger
-import nick.data.daos.PhotosDao
-import nick.networking.services.FiveHundredPixelsService
-import nick.networking.services.PhotosRequest
+import nick.photos.daos.PhotosDao
+import nick.photos.services.FiveHundredPixelsService
+import nick.photos.services.FiveHundredPixelsServiceWrapper
+import nick.photos.services.PhotosRequest
 import nick.photoshowcase.fakes.*
 import nick.photoshowcase.repositories.PhotoShowcaseRepository
 import nick.photoshowcase.ui.PhotoShowcaseFragment
 import nick.photoshowcase.vm.PhotoShowcaseViewModel
-import nick.testutils.*
+import nick.testutils.InMemoryDatabaseRule
+import nick.testutils.mock
+import nick.testutils.withItemCount
 import org.hamcrest.Matchers.not
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import javax.inject.Provider
 
-@ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
 class PhotoShowcaseFragmentTest {
 
@@ -83,13 +84,14 @@ class PhotoShowcaseFragmentTest {
 
     private fun launchPhotoShowcaseFragmentWithFakeService(fiveHundredPixelsService: FiveHundredPixelsService) {
         val repository = PhotoShowcaseRepository(
-            fiveHundredPixelsService,
+            FiveHundredPixelsServiceWrapper(fiveHundredPixelsService),
             photosDao,
             logger
         )
 
-        val vmProvider = Provider<PhotoShowcaseViewModel> {
-            PhotoShowcaseViewModel(repository, PhotosRequest(), 15)
+        val vmProvider = Provider {
+            PhotoShowcaseViewModel(repository,
+                PhotosRequest(), 15)
         }
         val fragment = PhotoShowcaseFragment(vmProvider, logger)
 
