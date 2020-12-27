@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="nick.fivehundredpixels">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".FiveHundredPixelsApplication"
         android:allowBackup="true"
